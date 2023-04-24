@@ -1,4 +1,4 @@
-./static/assets/Cartopy-0.20.2-cp310-cp310-win_amd64.whl
+Cartopy==0.21.0
 geopandas==0.12.2
 matplotlib==3.6.1
 numpy==1.22.4
