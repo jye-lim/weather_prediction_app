@@ -8,7 +8,7 @@ from scripts.subpages import display_about_page, display_dashboard_page, display
 def main():
     # Create a Streamlit application
     logo = "./static/images/logo.png"
-    st.set_page_config(page_title="Weather App Dashboard", layout='wide', initial_sidebar_state='auto', page_icon=logo)
+    st.set_page_config(page_title="Weather Prediction App", layout='wide', initial_sidebar_state='auto', page_icon=logo)
     st.title("Weather Prediction App")
 
     # Load data
