@@ -18,17 +18,18 @@ def display_about_page():
     st.markdown("## Methodology")
     st.markdown("""
     The methodology for predicting extreme weather events in Singapore using the ConvLSTM2D model involves data pre-processing, model architecture design, and evaluation. 
-    We use the SgCALE's WRF dataset, perform statistical downscaling to refine its spatial resolution, and select relevant variables. The data is split into training, 
-    validation, and test sets and normalized based on the training set distribution. 
+    We used the statistically downscaled data from [SgCALE's WRF dataset](https://sgcale.github.io/research/climate-downscaling/), and select relevant variables. The data 
+    is split into training, validation, and test sets and normalized based on the training set distribution.
 
-    A custom loss function, Fractions Skill Score (FSS) loss, is employed to compute the model loss across an area rather than a pixel-to-pixel comparison. This approach 
-    prevents the model from being penalized twice for a reasonable prediction. The FSS loss is a mix of MSE and MAE losses, with weights of 0.70 and 0.30, respectively, 
-    and computes the average precipitation within a user-defined mask size before calculating the weighted losses between the true and predicted values.
+    A custom loss function, [Fractions Skill Score](https://doi.org/10.48550/arXiv.2106.09757) (FSS) loss, is employed to compute the model loss across an area rather than 
+    a pixel-to-pixel comparison. This approach prevents the model from being penalized twice for a reasonable prediction. The FSS loss is a mix of MSE and MAE losses, with 
+    weights of 0.70 and 0.30, respectively, and computes the average precipitation within a user-defined mask size before calculating the weighted losses between the true 
+    and predicted values.
     """)
 
     st.markdown("## User Guide")
     st.markdown("""
-    <Coming soon!>
+    -- Coming soon! --
     """)
 
     st.markdown("## Future Works")
