@@ -3,7 +3,6 @@ import numpy as np
 import pandas as pd
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-import cartopy.crs as ccrs
 from shapely.geometry import Point
 
 
@@ -55,29 +54,44 @@ def add_colorbar(fig, ax, cmap, vmin, vmax, cbar_label):
     cbar.ax.tick_params(labelsize=14)
 
 
-def plot_subplot(ax, data, cmap, vmin, vmax, xlat, xlong, title, zoomed, target_reservoir, rsvr_colour):
+def set_ticks(ax, xlong_1, xlong_2, xlat_1, xlat_2):
+    xticks = np.arange(np.ceil(xlong_1 * 10) / 10, np.floor(xlong_2 * 10) / 10 + 0.001, 0.1)
+    yticks = np.arange(np.ceil(xlat_1 * 10) / 10, np.floor(xlat_2 * 10) / 10 + 0.001, 0.1)
+
+    ax.set_xticks(xticks, minor=False)
+    ax.set_yticks(yticks, minor=False)
+    ax.set_xticklabels([f'{x:.1f}°E' for x in xticks])
+    ax.set_yticklabels([f'{y:.2f}°N' for y in yticks])
+    
+
+def plot_subplot(world, ax, data, cmap, vmin, vmax, xlat, xlong, title, zoomed, target_reservoir, rsvr_colour):
     ax.imshow(
         data,
         cmap=cmap,
         vmin=vmin, vmax=vmax,
-        transform=ccrs.PlateCarree(),
-        aspect='equal',
         extent=[np.min(xlong), np.max(xlong), np.min(xlat), np.max(xlat)],
         origin='upper'
     )
 
     ax.set_title(title, fontsize=16, fontweight='bold', pad=20)
-    ax.coastlines()
-    ax.gridlines(draw_labels=True)
+
+    world.plot(ax=ax, edgecolor='black', linewidth=0.5)
+
+    xlong_vals = sorted(xlong.flatten())
+    xlat_vals = sorted(xlat.flatten())
 
     if zoomed:
-        xlong_vals = sorted(xlong.flatten())
-        xlat_vals = sorted(xlat.flatten())
-        
-        ax.set_extent([xlong_vals[int(0.2 * len(xlong_vals))],
-                       xlong_vals[int(0.8 * len(xlong_vals))],
-                       xlat_vals[int(0.15 * len(xlat_vals))],
-                       xlat_vals[int(0.75 * len(xlat_vals))]])
+        xlong_1, xlong_2 = xlong_vals[int(0.2 * len(xlong_vals))], xlong_vals[int(0.8 * len(xlong_vals))]
+        xlat_1, xlat_2 = xlat_vals[int(0.15 * len(xlat_vals))], xlat_vals[int(0.75 * len(xlat_vals))]
+    else:
+        xlong_1, xlong_2 = xlong_vals[0], xlong_vals[-1]
+        xlat_1, xlat_2 = xlat_vals[0], xlat_vals[-1]
+
+    ax.set_xlim([xlong_1, xlong_2])
+    ax.set_ylim([xlat_1, xlat_2])
+
+    set_ticks(ax, xlong_1, xlong_2, xlat_1, xlat_2)
+    ax.grid(True, linestyle='--', alpha=0.5, color='gray', which='both', zorder=0)
 
     target_reservoir.boundary.plot(ax=ax, facecolor=rsvr_colour, edgecolor=rsvr_colour, linewidth=1)
 
@@ -100,8 +114,8 @@ def get_reservoir_values(data, boundary, xlat_values, xlong_values):
     return rsvr_c
 
 
-def get_plots(rows, cols, xlat, xlong, plot_type, dates, true_target, pred_target, waterbody, step, spi_true, spi_pred_dict, prcp_true, prcp_pred_dict, reservoirs_gdf):
-    fig, ax = plt.subplots(nrows=rows, ncols=cols, figsize=(cols * 8, rows * 7), subplot_kw={'projection': ccrs.PlateCarree()})
+def get_plots(world, rows, cols, xlat, xlong, plot_type, dates, true_target, pred_target, waterbody, step, spi_true, spi_pred_dict, prcp_true, prcp_pred_dict, reservoirs_gdf):
+    fig, ax = plt.subplots(nrows=rows, ncols=cols, figsize=(cols * 8, rows * 7))
     fig.set_size_inches(cols * 8, rows * 7)
 
     data_true, data_pred, plt_date, cmap, cbar_label, rsvr_colour, vmin, vmax = configure_plot(plot_type, dates, true_target, prcp_true, prcp_pred_dict[step], 
@@ -123,7 +137,7 @@ def get_plots(rows, cols, xlat, xlong, plot_type, dates, true_target, pred_targe
     target_reservoir = reservoirs_gdf[reservoirs_gdf["name"] == waterbody]
 
     for c in range(cols):
-        plot_subplot(ax[c], data_true[targets[c]] if c == 0 else data_pred[targets[c]], cmap, vmin, vmax, xlat, xlong, labels[c], zoomed, target_reservoir, rsvr_colour)
+        plot_subplot(world, ax[c], data_true[targets[c]] if c == 0 else data_pred[targets[c]], cmap, vmin, vmax, xlat, xlong, labels[c], zoomed, target_reservoir, rsvr_colour)
         rsvr_c = get_reservoir_values(data_true if c == 0 else data_pred, target_reservoir.geometry.iloc[0], xlat, xlong)
         true_reservoir, pred_reservoir = (rsvr_c, pred_reservoir) if c == 0 else (true_reservoir, rsvr_c)
 

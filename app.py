@@ -12,7 +12,7 @@ def main():
     st.title("Weather Prediction App")
 
     # Load data
-    spi_true, spi_pred_dict, prcp_true, prcp_pred_dict, reservoirs_gdf = load_data()
+    spi_true, spi_pred_dict, prcp_true, prcp_pred_dict, world, reservoirs_gdf = load_data()
 
     # Store key variables in session state
     st.session_state['spi_true'] = spi_true
@@ -45,7 +45,7 @@ def main():
         display_about_page()
 
     elif selected_page == "Dashboard":
-        display_dashboard_page(rows, cols, xlat, xlong)
+        display_dashboard_page(world, rows, cols, xlat, xlong)
         display_analysis_page(start_date)
         
     elif selected_page == "Data":

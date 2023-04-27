@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-from scripts.sidebar import create_sidebar
 from scripts.plot_functions import get_plots, show_distribution
 from scripts.analysis_functions import display_analysis_section
 from scripts.download import get_download_link
@@ -76,7 +75,7 @@ def display_about_page():
     """)
 
 
-def display_dashboard_page(rows, cols, xlat, xlong):
+def display_dashboard_page(world, rows, cols, xlat, xlong):
     # Get loaded values
     spi_true = st.session_state['spi_true']
     spi_pred_dict = st.session_state['spi_pred_dict']
@@ -93,8 +92,8 @@ def display_dashboard_page(rows, cols, xlat, xlong):
     waterbody = st.session_state['waterbody']
 
     # Plot SPI for target date
-    true, pred, true_reservoir, pred_reservoir = get_plots(rows, cols, xlat, xlong, plot_type, dates, true_target, pred_target, waterbody, step, 
-                                                           spi_true, spi_pred_dict, prcp_true, prcp_pred_dict, reservoirs_gdf)
+    true, pred, true_reservoir, pred_reservoir = get_plots(world, rows, cols, xlat, xlong, plot_type, dates, true_target, pred_target, waterbody, 
+                                                           step, spi_true, spi_pred_dict, prcp_true, prcp_pred_dict, reservoirs_gdf)
     
     # Show data distribution
     show_distribution(true, pred, plot_type)

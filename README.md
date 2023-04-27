@@ -12,12 +12,13 @@
 </p>
 <p>
     ...</br>
+    ├─── .streamlit</br>
     ├─── data</br>
     │&nbsp;&nbsp;&nbsp;└─── precipitation : <i>(data in .npy)</i></br>
     │&nbsp;&nbsp;&nbsp;└─── precipitation : <i>(data in .npy)</i></br>
     ├─── scripts</br>
     ├─── static</br>
-    │&nbsp;&nbsp;&nbsp;└─── assets : <i>(coordinates in .npy)</i></br>
+    │&nbsp;&nbsp;&nbsp;└─── assets : <i>(coordinate and coastline data)</i></br>
     │&nbsp;&nbsp;&nbsp;└─── downloads : <i>(data in .csv)</i></br>
     │&nbsp;&nbsp;&nbsp;└─── images : <i>(images in .png)</i></br>
     ├─── .gitattributes</br>

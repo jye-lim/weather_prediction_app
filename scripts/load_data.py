@@ -21,6 +21,9 @@ def load_data():
     spi_pred7 = np.load(spi_path + "spi_pred_7step.npy")
     spi_pred_dict = {1: spi_pred1, 3: spi_pred3, 7: spi_pred7}
 
+    # Load coastlines
+    world = gpd.read_file('./static/assets/ne_10m_coastline.shp')
+
     # Load reservoir data
     reservoirs_gdf = gpd.read_file("./data/singapore_reservoirs.geojson")
-    return spi_true, spi_pred_dict, prcp_true, prcp_pred_dict, reservoirs_gdf
+    return spi_true, spi_pred_dict, prcp_true, prcp_pred_dict, world, reservoirs_gdf
