@@ -1,6 +1,7 @@
 # **Weather Prediction App**
 
--- Public link coming soon! --
+Link to webpage: 
+[https://jye-lim-weather.streamlit.app/](https://jye-lim-weather.streamlit.app/)
 
 ## **Overview**
 
@@ -46,10 +47,10 @@ To access the web app, either use the public link at the top of this README docu
 ## **Methodology**
 
 <p>
-    The methodology for predicting extreme weather events in Singapore using the ConvLSTM2D model involves data pre-processing, model architecture design, and evaluation. We use the SgCALE's WRF dataset, perform statistical downscaling to refine its spatial resolution, and select relevant variables. The data is split into training, validation, and test sets and normalized based on the training set distribution.
+    The methodology for predicting extreme weather events in Singapore using the ConvLSTM2D model involves data pre-processing, model architecture design, and evaluation. We used the statistically downscaled data from <a href="https://sgcale.github.io/research/climate-downscaling/">SgCALE's WRF dataset</a>, and select relevant variables. The data is split into training, validation, and test sets and normalized based on the training set distribution.
 </p>
 <p>
-    A custom loss function, Fractions Skill Score (FSS) loss, is employed to compute the model loss across an area rather than a pixel-to-pixel comparison. This approach prevents the model from being penalized twice for a reasonable prediction. The FSS loss is a mix of MSE and MAE losses, with weights of 0.70 and 0.30, respectively, and computes the average precipitation within a user-defined mask size before calculating the weighted losses between the true and predicted values.
+    A custom loss function, <a href = "https://doi.org/10.48550/arXiv.2106.09757">Fractions Skill Score (FSS)</a> loss, is employed to compute the model loss across an area rather than a pixel-to-pixel comparison. This approach prevents the model from being penalized twice for a reasonable prediction. The FSS loss is a mix of MSE and MAE losses, with weights of 0.70 and 0.30, respectively, and computes the average precipitation within a user-defined mask size before calculating the weighted losses between the true and predicted values.
 </p>
 
 ## **Future Works**
