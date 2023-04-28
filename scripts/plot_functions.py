@@ -94,6 +94,8 @@ def plot_subplot(world, ax, data, cmap, vmin, vmax, xlat, xlong, title, zoomed, 
     ax.grid(True, linestyle='--', alpha=0.5, color='gray', which='both', zorder=0)
 
     target_reservoir.boundary.plot(ax=ax, facecolor=rsvr_colour, edgecolor=rsvr_colour, linewidth=1)
+    target_reservoir_patch = mpl.patches.Patch(color=rsvr_colour, label=target_reservoir.name.values[0])
+    ax.legend(handles=[target_reservoir_patch], loc='upper left')
 
 
 def get_reservoir_values(data, boundary, xlat_values, xlong_values):
