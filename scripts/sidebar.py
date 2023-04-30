@@ -9,7 +9,7 @@ def navigation():
         selected_page = option_menu(
             menu_title=None,
             options=["About", "Dashboard", "Data"],
-            icons=["house", "book", "envelope"],
+            icons=["house", "book", "list-task"],
             menu_icon="cast",
             default_index=0,
         )

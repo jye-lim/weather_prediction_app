@@ -154,24 +154,24 @@ def show_distribution(true, pred, plot_type):
 
     if plot_type == "Precipitation":
         categories = [
-            "0 < x <= 20",
-            "20 < x <= 40",
-            "40 < x <= 60",
-            "60 < x <= 80",
-            "80 < x <= 100",
+            "0 ≤ x ≤ 20",
+            "20 < x ≤ 40",
+            "40 < x ≤ 60",
+            "60 < x ≤ 80",
+            "80 < x ≤ 100",
             "x > 100",
         ]
         bins = [0, 20, 40, 60, 80, 100, np.inf]
 
     elif plot_type == "SPI":
         categories = [
-            "Extremely Wet (>= 2.00)",
+            "Extremely Wet (≥ 2.00)",
             "Severely Wet (1.50 to 1.99)",
             "Moderately Wet (1.00 to 1.49)",
             "Near Normal (-0.99 to 0.99)",
             "Moderately Dry (-1.00 to -1.49)",
             "Severely Dry (-1.50 to -1.99)",
-            "Extremely Dry (<= -2.00)",
+            "Extremely Dry (≤ -2.00)",
         ]
         bins = [-np.inf, -2, -1.5, -1, 1, 1.5, 2, np.inf]
 
@@ -188,8 +188,9 @@ def show_distribution(true, pred, plot_type):
                                      "Predicted (%)": pred_perc})
 
     st.write(f'Data distribution for {plot_type} plot')
-    st.markdown(distribution_df.style.hide_index()
-                      .format({"WRF Simulation (%)": "{:.2f}", "Predicted (%)": "{:.2f}"})
-                      .set_table_styles([dict(selector="th", props=[("font-weight", "bold")])])
-                      .render(), unsafe_allow_html=True)
+    st.markdown(distribution_df.style.hide(axis="index")
+                        .format({"WRF Simulation (%)": "{:.2f}", "Predicted (%)": "{:.2f}"})
+                        .set_table_styles([dict(selector="th", props=[("font-weight", "bold")])])
+                        .to_html(), unsafe_allow_html=True)
+
     st.write("")
