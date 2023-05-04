@@ -86,7 +86,19 @@ def display_return_period_plot(dates, split_date, year, waterbody, true_reservoi
     ))
 
     # Update plot
-    fig.update_layout(xaxis_title="Return Period (years)", yaxis_title="Precipitation (mm)", autosize=True)
+    fig.update_layout(
+        xaxis_title="Return Period (years)", 
+        yaxis_title="Precipitation (mm)", autosize=True,
+        height=400,
+        legend=dict(
+            orientation="h",
+            x=1,
+            y=1,
+            xanchor="right",
+            yanchor="bottom",
+            bgcolor="rgba(255, 255, 255, 0.7)"
+        ),
+    )
     fig.update_traces(hovertemplate="Return Period: <b>%{x}</b> yrs<br>Precipitation: <b>%{y:.2f}</b> mm")
 
     st.plotly_chart(fig, use_container_width=True)
@@ -124,7 +136,8 @@ def display_histogram_plot(true_reservoir, pred_reservoir, true_target, pred_tar
         yaxis_title="Frequency",
         autosize=True,
         margin=dict(l=0, r=0, t=30, b=0),
-        bargap=0.03
+        bargap=0.03,
+        height=400
     )
 
     st.plotly_chart(fig, use_container_width=True)
@@ -176,7 +189,15 @@ def display_time_series_plot(plot_type, x_dates, start_date, split_year, waterbo
         autosize=True,
         margin=dict(l=0, r=10, t=30, b=0),
         hoverlabel=dict(namelength=-1),
-        height=400
+        height=400,
+        legend=dict(
+            orientation="h",
+            x=1,
+            y=1,
+            xanchor="right",
+            yanchor="bottom",
+            bgcolor="rgba(255, 255, 255, 0.7)"
+        )
     )
 
     st.plotly_chart(fig, use_container_width=True)
