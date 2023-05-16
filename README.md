@@ -16,12 +16,14 @@ Link to webpage:
     ├─── .streamlit</br>
     ├─── data</br>
     │&nbsp;&nbsp;&nbsp;└─── precipitation : <i>(data in .npy)</i></br>
-    │&nbsp;&nbsp;&nbsp;└─── precipitation : <i>(data in .npy)</i></br>
+    │&nbsp;&nbsp;&nbsp;└─── spi : <i>(data in .npy)</i></br>
+    │&nbsp;&nbsp;&nbsp;└─── singapore_reservoirs.geojson</br>
     ├─── scripts</br>
     ├─── static</br>
     │&nbsp;&nbsp;&nbsp;└─── assets : <i>(coordinate and coastline data)</i></br>
     │&nbsp;&nbsp;&nbsp;└─── downloads : <i>(data in .csv)</i></br>
     │&nbsp;&nbsp;&nbsp;└─── images : <i>(images in .png)</i></br>
+    │&nbsp;&nbsp;&nbsp;└─── videos : <i>(videos in .mp4)</i></br>
     ├─── .gitattributes</br>
     ├─── .gitignore</br>
     ├─── app.py</br>
@@ -40,9 +42,17 @@ Link to webpage:
 
 To access the web app, either use the public link at the top of this README document or fork it and follow the steps below to run it locally:
 
-1. Ensure that **Python 3.10.6** and the required packages listed in requirements.txt are installed
-2. Run the command `pip install -r requirements.txt` to install the necessary packages
-3. Access the web app locally by running the command `streamlit run app.py` in the root directory
+1. Ensure that `Python 3.10.6` and the required packages listed in requirements.txt are installed
+
+2. Install app requirements.
+    ```bash 
+    pip install -r requirements.txt
+    ```
+
+3. Access the web app locally by running the following commands in the root directory.
+    ```bash
+    streamlit run app.py
+    ```
 
 ## **Methodology**
 
