@@ -64,7 +64,7 @@ def display_return_period_plot(dates, split_date, year, waterbody, true_reservoi
         y=df_gev_true.values[:, 0],
         log_x=True,
         log_y=False,
-        title=f"{waterbody} Precipitation (mm) Return Period",
+        title=f"{waterbody} Annual Precipitation (mm) in {year}",
         line_shape='spline'
     )
 
@@ -85,7 +85,20 @@ def display_return_period_plot(dates, split_date, year, waterbody, true_reservoi
         name=f"<b>Predicted</b><br>Mean: {pred_max:.2f} mm<br>Return Period: {pred_rp} yrs"
     ))
 
-    # Update hover template
+    # Update plot
+    fig.update_layout(
+        xaxis_title="Return Period (years)", 
+        yaxis_title="Precipitation (mm)", autosize=True,
+        height=400,
+        legend=dict(
+            orientation="h",
+            x=1,
+            y=1,
+            xanchor="right",
+            yanchor="bottom",
+            bgcolor="rgba(255, 255, 255, 0.7)"
+        ),
+    )
     fig.update_traces(hovertemplate="Return Period: <b>%{x}</b> yrs<br>Precipitation: <b>%{y:.2f}</b> mm")
 
     st.plotly_chart(fig, use_container_width=True)
@@ -99,7 +112,7 @@ def display_histogram_plot(true_reservoir, pred_reservoir, true_target, pred_tar
     fig = go.Figure()
     fig.add_trace(go.Histogram(
         x=true_reservoir.flatten(),
-        name="Observed SPI",
+        name="WRF Simulated SPI",
         xbins=dict(start=vmin, end=vmax, size=bin_size),
         marker_color='#1f77b4',
         showlegend=False,
@@ -107,11 +120,11 @@ def display_histogram_plot(true_reservoir, pred_reservoir, true_target, pred_tar
     ))
 
     # Add vertical lines for mean values
-    fig.add_vline(x=true, line_width=2, line_color='Red', name='Observed')
+    fig.add_vline(x=true, line_width=2, line_color='Red', name='WRF Simulated')
     fig.add_vline(x=pred, line_width=2, line_color='Green', name='Predicted')
 
     # Add annotations for mean values
-    fig.add_annotation(x=true, y=0, text=f"<b>Observed: {true:.2f}</b>", font=dict(color="red"), showarrow=False,
+    fig.add_annotation(x=true, y=0, text=f"<b>WRF Simulated: {true:.2f}</b>", font=dict(color="red"), showarrow=False,
                        bgcolor="rgba(255, 255, 255, 1)", bordercolor="white", borderwidth=1, xref="x", yref="y", yshift=10)
     fig.add_annotation(x=pred, y=0, text=f"<b>Predicted: {pred:.2f}</b>", font=dict(color="green"), showarrow=False,
                        bgcolor="rgba(255, 255, 255, 1)", bordercolor="white", borderwidth=1, xref="x", yref="y", yshift=-10)
@@ -123,7 +136,8 @@ def display_histogram_plot(true_reservoir, pred_reservoir, true_target, pred_tar
         yaxis_title="Frequency",
         autosize=True,
         margin=dict(l=0, r=0, t=30, b=0),
-        bargap=0.03
+        bargap=0.03,
+        height=400
     )
 
     st.plotly_chart(fig, use_container_width=True)
@@ -156,7 +170,7 @@ def display_time_series_plot(plot_type, x_dates, start_date, split_year, waterbo
 
     if show_historical_data:
         historical_x_values = pd.date_range(start=str(start_date), end=str(split_year), freq='M')
-        fig.add_trace(go.Scatter(x=historical_x_values, y=hist, mode='lines', name='Historical SPI', line=dict(color='black'), line_width=1))
+        fig.add_trace(go.Scatter(x=historical_x_values, y=hist, mode='lines', name=f'Historical {plot_type}', line=dict(color='black'), line_width=1))
         fig.add_hline(y=all_mean, line_width=1.5, line_dash="dash", line_color="red", name="WRF Simulated Mean")
         plt_start = start_date
     else:
@@ -167,14 +181,23 @@ def display_time_series_plot(plot_type, x_dates, start_date, split_year, waterbo
     add_mean_annotation(fig, pred_mean, "<b>Predicted Mean: {:.2f}</b>", "green")
 
     fig.update_layout(
-        title=f"{plot_type} values over time for {waterbody} ({plt_start} - 2020)",
-        xaxis_title="Time",
-        yaxis_title="SPI",
-        legend_title="SPI Values",
+        title=f"{plot_type} for {waterbody} ({plt_start} - 2020)",
+        xaxis_title="Year",
+        yaxis_title=f"{plot_type} (mm)" if plot_type == "Precipitation" else plot_type,
+        legend_title="",
         hovermode="x",
         autosize=True,
-        margin=dict(l=0, r=0, t=30, b=0),
-        width=None
+        margin=dict(l=0, r=10, t=30, b=0),
+        hoverlabel=dict(namelength=-1),
+        height=400,
+        legend=dict(
+            orientation="h",
+            x=1,
+            y=1,
+            xanchor="right",
+            yanchor="bottom",
+            bgcolor="rgba(255, 255, 255, 0.7)"
+        )
     )
 
     st.plotly_chart(fig, use_container_width=True)

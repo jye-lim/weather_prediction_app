@@ -28,9 +28,7 @@ def display_about_page():
     """)
 
     st.markdown("## User Guide")
-    st.markdown("""
-    -- Coming soon! --
-    """)
+    st.video("./static/videos/user_guide.mp4")
 
     st.markdown("## Future Works")
     st.markdown("""
