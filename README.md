@@ -1,6 +1,6 @@
 # **Weather Prediction App**
 
-Link to webpage: 
+Link to webpage:
 [https://jye-lim-weather.streamlit.app/](https://jye-lim-weather.streamlit.app/)
 
 ## **Overview**
@@ -45,11 +45,13 @@ To access the web app, either use the public link at the top of this README docu
 1. Ensure that `Python 3.10.6` and the required packages listed in requirements.txt are installed
 
 2. Install app requirements.
-    ```bash 
+
+    ```bash
     pip install -r requirements.txt
     ```
 
 3. Access the web app locally by running the following commands in the root directory.
+
     ```bash
     streamlit run app.py
     ```
