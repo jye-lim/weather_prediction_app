@@ -1,9 +1,9 @@
-# .gitignore
-
-# Ignore __pycache__ directories
-__pycache__/
-
-# Ignore Python bytecode files
-*.pyc
-*.pyo
-*.pyd
+*.gem
+.bundle
+.ruby-version
+.jekyll-cache
+.sass-cache
+_site
+Gemfile.lock
+node_modules
+.DS_Store

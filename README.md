@@ -1,107 +1,110 @@
-# **Weather Prediction App**
-
-Link to webpage:
-[https://jye-lim-weather.streamlit.app/](https://jye-lim-weather.streamlit.app/)
-
-## **Overview**
-
-<p>
-    Welcome to our weather prediction web app! This web app demonstrates the capabilities of using a ConvLSTM2D model to predict extreme weather events across Singapore. Through this web app, we hope to showcase the potential of using Deep Neural Networks to capture spatiotemporal dependencies within meteorological datasets to predict the onset of extreme weather events. The accuracy of the deployed models in this web app has much room for improvement. However, we hope that by sharing our findings and potential areas for future research, we can contribute to developing more reliable forecasting systems for Singapore.
-</P>
-<p>
-    The folder structure is as follows:
+<p align="right">
+    <a href="https://badge.fury.io/rb/just-the-docs"><img src="https://badge.fury.io/rb/just-the-docs.svg" alt="Gem version"></a> <a href="https://github.com/just-the-docs/just-the-docs/actions/workflows/ci.yml"><img src="https://github.com/just-the-docs/just-the-docs/actions/workflows/ci.yml/badge.svg" alt="CI Build status"></a> <a href="https://app.netlify.com/sites/just-the-docs/deploys"><img src="https://api.netlify.com/api/v1/badges/9dc0386d-c2a4-4077-ad83-f02c33a6c0ca/deploy-status" alt="Netlify Status"></a>
 </p>
-<p>
-    ...</br>
-    ├─── .streamlit</br>
-    ├─── data</br>
-    │&nbsp;&nbsp;&nbsp;└─── precipitation : <i>(data in .npy)</i></br>
-    │&nbsp;&nbsp;&nbsp;└─── spi : <i>(data in .npy)</i></br>
-    │&nbsp;&nbsp;&nbsp;└─── singapore_reservoirs.geojson</br>
-    ├─── scripts</br>
-    ├─── static</br>
-    │&nbsp;&nbsp;&nbsp;└─── assets : <i>(coordinate and coastline data)</i></br>
-    │&nbsp;&nbsp;&nbsp;└─── downloads : <i>(data in .csv)</i></br>
-    │&nbsp;&nbsp;&nbsp;└─── images : <i>(images in .png)</i></br>
-    │&nbsp;&nbsp;&nbsp;└─── videos : <i>(videos in .mp4)</i></br>
-    ├─── .gitattributes</br>
-    ├─── .gitignore</br>
-    ├─── app.py</br>
-    ├─── LICENSE</br>
-    ├─── README.md</br>
-    └─── requirements.txt</br>
-    ...
-</p>
-<ul>
-    <li>data: Contains WRF simulated and predicted data for plotting</li>
-    <li>scripts: Contains self-defined functions for the web app</li>
-    <li>static: Contains files that remains unchanged</li>
-</ul>
-
-## **Usage**
-
-To access the web app, either use the public link at the top of this README document or fork it and follow the steps below to run it locally:
-
-1. Ensure that `Python 3.10.6` and the required packages listed in requirements.txt are installed
-
-2. Install app requirements.
-
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-3. Access the web app locally by running the following commands in the root directory.
-
-    ```bash
-    streamlit run app.py
-    ```
-
-## **Methodology**
-
-<p>
-    The methodology for predicting extreme weather events in Singapore using the ConvLSTM2D model involves data pre-processing, model architecture design, and evaluation. We used the statistically downscaled data from <a href="https://sgcale.github.io/research/climate-downscaling/">SgCALE's WRF dataset</a>, and select relevant variables. The data is split into training, validation, and test sets and normalized based on the training set distribution.
-</p>
-<p>
-    A custom loss function, <a href = "https://doi.org/10.48550/arXiv.2106.09757">Fractions Skill Score (FSS)</a> loss, is employed to compute the model loss across an area rather than a pixel-to-pixel comparison. This approach prevents the model from being penalized twice for a reasonable prediction. The FSS loss is a mix of MSE and MAE losses, with weights of 0.70 and 0.30, respectively, and computes the average precipitation within a user-defined mask size before calculating the weighted losses between the true and predicted values.
+<br><br>
+<p align="center">
+    <h1 align="center">Just the Docs</h1>
+    <p align="center">A modern, highly customizable, and responsive Jekyll theme for documentation with built-in search.<br>Easily hosted on GitHub Pages with few dependencies.</p>
+    <p align="center"><strong><a href="https://just-the-docs.com/">See it in action!</a></strong></p>
+    <br><br><br>
 </p>
 
-## **Future Works**
+<p align="center">A video walkthrough of various Just the Docs features</p>
 
-<ol>
-    <li>
-        <u><b>Data Scaling</b></u>
-        <p>
-            Scale the predicted data to match the mean of our WRF Simulated values. Can be achieved by applying min-max scaling to the predicted dataset using the WRF Simulated values before adding or subtracting the scaled dataset to align the means.
-        </p>
-    </li>
-    <li>
-        <u><b>Improving the FSS Loss Function</b></u>
-        <p>
-            Refine FSS loss to penalise the model from making "safe" predictions that avoid extreme values, such as 0 or extreme precipitation. This enhancement could better capture the onset of extreme weather events.
-        </p>
-    </li>
-    <li>
-        <u><b>Longer-term Forecasting</b></u>
-        <p>
-            The ConvLSTM2D model currently does not perform well for longer-term forecasting. Future research could investigate potential improvements to the model architecture, additional meteorological features, or alternative machine-learning techniques to enhance the model's performance in this regard.
-        </p>
-    </li>
-    <li>
-        <u><b>Investigating Regional Errors</b></u>
-        <p>
-            Our analysis revealed that the bottom-left corner of our area of interest has an unusually high error. Further investigation into the dataset for that location is warranted to determine if the data is reasonable. If reasonable, additional studies to understand why the model performs poorly in that specific location should be conducted.
-        </p>
-    </li>
-    <li>
-        <u><b>Categorical Prediction of SPI Classes</b></u>
-        <p>
-            An alternative approach would be to adjust the ConvLSTM2D model to perform categorical prediction of SPI classes, yielding a probabilistic output of the events. During our study, we attempted to incorporate a SoftMax output layer for this purpose, but all iterations of the model performed poorly. This may be due to the significant reduction in the dataset count when daily data is resampled to monthly steps. We also tried incorporating weights based on the inverse class frequencies technique discussed earlier in the report, but this was also unsuccessful. Future research can explore the use of Bayesian probability to compute the weights for each class, potentially improving model performance in this context.
-        </p>
-    </li>
-</ol>
+https://user-images.githubusercontent.com/85418632/211225192-7e5d1116-2f4f-4305-bb9b-437fe47df071.mp4
 
-## **Disclaimers**
+## Installation
 
-<p>
-    The data and predictions presented in this dashboard are for informational purposes only and should not be used for decision-making without further verification. The creators of this dashboard are not responsible for any errors or inaccuracies in the data or predictions or for any decisions made based on the information provided here.
-</p>
+### Use the template
+
+The [Just the Docs Template] provides the simplest, quickest, and easiest way to create a new website that uses the Just the Docs theme. To get started with creating a site, just click "[use the template]"!
+
+Note: To use the theme, you do ***not*** need to clone or fork the [Just the Docs repo]! You should do that only if you intend to browse the theme docs locally, contribute to the development of the theme, or develop a new theme based on Just the Docs.
+
+You can easily set the site created by the template to be published on [GitHub Pages] – the [template README] file explains how to do that, along with other details.
+
+If [Jekyll] is installed on your computer, you can also build and preview the created site *locally*. This lets you test changes before committing them, and avoids waiting for GitHub Pages.[^2] And you will be able to deploy your local build to a different platform than GitHub Pages.
+
+More specifically, the created site:
+
+- uses a gem-based approach, i.e. uses a `Gemfile` and loads the `just-the-docs` gem
+- uses the [GitHub Pages / Actions workflow] to build and publish the site on GitHub Pages
+
+Other than that, you're free to customize sites that you create with the template, however you like. You can easily change the versions of `just-the-docs` and Jekyll it uses, as well as adding further plugins.
+
+### Use RubyGems
+
+Alternatively, you can install the theme as a Ruby Gem, without creating a new site.
+
+Add this line to your Jekyll site's `Gemfile`:
+
+```ruby
+gem "just-the-docs"
+```
+
+And add this line to your Jekyll site's `_config.yml`:
+
+```yaml
+theme: just-the-docs
+```
+
+And then execute:
+
+    $ bundle
+
+Or install it yourself as:
+
+    $ gem install just-the-docs
+
+Alternatively, you can run it inside Docker while developing your site
+
+    $ docker-compose up
+
+## Usage
+
+[View the documentation][Just the Docs] for usage information.
+
+## Contributing
+
+Bug reports, proposals of new features, and pull requests are welcome on GitHub at https://github.com/just-the-docs/just-the-docs. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+
+### Submitting code changes:
+
+- Submit an [Issue](https://github.com/just-the-docs/just-the-docs/issues) that motivates the changes, using the appropriate template
+- Discuss the proposed changes with other users and the maintainers
+- Open a [Pull Request](https://github.com/just-the-docs/just-the-docs/pulls)
+- Ensure all CI tests pass
+- Provide instructions to check the effect of the changes
+- Await code review
+
+### Design and development principles of this theme:
+
+1. As few dependencies as possible
+2. No build script needed
+3. First class mobile experience
+4. Make the content shine
+
+## Development
+
+To set up your environment to develop this theme: fork this repo, the run `bundle install` from the root directory.
+
+A modern [devcontainer configuration](https://code.visualstudio.com/docs/remote/containers) for VSCode is included.
+
+Your theme is set up just like a normal Jekyll site! To test your theme, run `bundle exec jekyll serve` and open your browser at `http://localhost:4000`. This starts a Jekyll server using your theme. Add pages, documents, data, etc. like normal to test your theme's contents. As you make modifications to your theme and to your content, your site will regenerate and you should see the changes in the browser after a refresh, just like normal.
+
+When this theme is released, only the files in `_layouts`, `_includes`, and `_sass` tracked with Git will be included in the gem.
+
+## License
+
+The theme is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+
+[^2]: [It can take up to 10 minutes for changes to your site to publish after you push the changes to GitHub](https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/creating-a-github-pages-site-with-jekyll#creating-your-site).
+
+[Jekyll]: https://jekyllrb.com
+[Just the Docs Template]: https://just-the-docs.github.io/just-the-docs-template/
+[Just the Docs]: https://just-the-docs.com
+[Just the Docs repo]: https://github.com/just-the-docs/just-the-docs
+[GitHub Pages]: https://pages.github.com/
+[Template README]: https://github.com/just-the-docs/just-the-docs-template/blob/main/README.md
+[GitHub Pages / Actions workflow]: https://github.blog/changelog/2022-07-27-github-pages-custom-github-actions-workflows-beta/
+[use the template]: https://github.com/just-the-docs/just-the-docs-template/generate
