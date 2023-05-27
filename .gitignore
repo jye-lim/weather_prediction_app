@@ -7,3 +7,8 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
+
+# Ignore files for gh-pages
+_site/
+.jekyll-cache/
+Gemfile.lock
