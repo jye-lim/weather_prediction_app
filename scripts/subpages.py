@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 from scripts.plot_functions import get_plots, show_distribution
 from scripts.analysis_functions import display_analysis_section
-from scripts.download import get_download_link
+from scripts.download import get_file_download_link
 
 
 def display_about_page():
@@ -76,23 +76,21 @@ def display_about_page():
 
 def display_dashboard_page(world, rows, cols, xlat, xlong):
     # Get loaded values
-    spi_true = st.session_state['spi_true']
-    spi_pred_dict = st.session_state['spi_pred_dict']
     prcp_true = st.session_state['prcp_true']
-    prcp_pred_dict = st.session_state['prcp_pred_dict']
+    prcp_pred = st.session_state['prcp_pred']
+    spi_true = st.session_state['spi_true']
+    spi_pred = st.session_state['spi_pred']
     reservoirs_gdf = st.session_state['reservoirs_gdf']
 
     # Get user input values
     plot_type = st.session_state['plot_type']
-    step = st.session_state['step']
     dates = st.session_state['dates']
-    true_target = st.session_state['true_target']
-    pred_target = st.session_state['pred_target']
+    target = st.session_state['target']
     waterbody = st.session_state['waterbody']
 
     # Plot SPI for target date
-    true, pred, true_reservoir, pred_reservoir = get_plots(world, rows, cols, xlat, xlong, plot_type, dates, true_target, pred_target, waterbody, 
-                                                           step, spi_true, spi_pred_dict, prcp_true, prcp_pred_dict, reservoirs_gdf)
+    true, pred, true_reservoir, pred_reservoir = get_plots(world, rows, cols, xlat, xlong, plot_type, dates, target, waterbody, 
+                                                           prcp_true, prcp_pred, spi_true, spi_pred, reservoirs_gdf)
     
     # Show data distribution
     show_distribution(true, pred, plot_type)
@@ -102,22 +100,17 @@ def display_dashboard_page(world, rows, cols, xlat, xlong):
     st.session_state['pred_reservoir'] = pred_reservoir
 
 
-def display_analysis_page(start_date):
+def display_analysis_page():
     # Get values from session state
     plot_type = st.session_state['plot_type']
     dates = st.session_state['dates']
-    split_date = st.session_state['split_date']
     year = st.session_state['year']
-    split_year = st.session_state['split_year']
     waterbody = st.session_state['waterbody']
     true_reservoir = st.session_state['true_reservoir']
     pred_reservoir = st.session_state['pred_reservoir']
-    true_target = st.session_state['true_target']
-    pred_target = st.session_state['pred_target']
 
     # Display the analysis section
-    display_analysis_section(plot_type, dates, start_date, split_date, year, split_year,
-                             waterbody, true_reservoir, pred_reservoir, true_target, pred_target)
+    display_analysis_section(plot_type, dates, year, waterbody, true_reservoir, pred_reservoir)
 
 
 def display_download_page():
@@ -125,9 +118,9 @@ def display_download_page():
 
     # Generate download link for reservoir geojson data
     st.write("### Reservoir Coordinates")
-    filename = "singapore_reservoirs.geojson"
-    data_path = "./data/"
-    download_link = get_download_link(data_path, filename, "Download reservoir geojson")
+    file_name = "singapore_reservoirs.geojson"
+    data_path = "./data/" + file_name
+    download_link = get_file_download_link(data_path, "Download Reservoir Coordinates")
     st.markdown(download_link, unsafe_allow_html=True)
 
     # Read the precipitation data
@@ -139,7 +132,7 @@ def display_download_page():
     st.write(df.head())
 
     # Generate download link for precipitation CSV
-    download_link = get_download_link(df, file_name, "Download precipitation CSV")
+    download_link = get_file_download_link(data_path, "Download Daily Mean Precipitation")
     st.markdown(download_link, unsafe_allow_html=True)
 
     # Read the spi data
@@ -151,5 +144,5 @@ def display_download_page():
     st.write(df.head())
 
     # Generate download link for spi CSV
-    download_link = get_download_link(df, file_name, "Download SPI CSV")
+    download_link = get_file_download_link(data_path, "Download Monthly Mean SPI")
     st.markdown(download_link, unsafe_allow_html=True)

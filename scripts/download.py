@@ -1,7 +1,9 @@
+import os
 import base64
 
-def get_download_link(file, file_name, text):
-    if file_name.split('.')[-1] == 'csv':
-        file = file.to_csv(index=False)
-    b64 = base64.b64encode(file.encode()).decode()
-    return f'<a href="data:file/csv;base64,{b64}" download="{file_name}">{text}</a>'
+def get_file_download_link(file_path, text):
+    with open(file_path, 'rb') as f:
+        data = f.read()
+    bin_str = base64.b64encode(data).decode()
+    href = f'<a href="data:application/octet-stream;base64,{bin_str}" download="{os.path.basename(file_path)}">{text}</a>'
+    return href
