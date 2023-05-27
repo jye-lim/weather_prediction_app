@@ -47,14 +47,11 @@ To access the web app, follow the steps below to run it locally:
 
 ## User guide
 
-<video width="100%" height="auto" controls>
-  <source src="./assets/videos/user_guide.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+Refer to the User Guide video to use the Web App in [our GitHub repo](https://github.com/jye-lim/weather_prediction_app#user-guide).
 
 ## About the project
 
-This Weather Prediction App (2017-{{ "now" | date: "%Y" }}) by [Lim Jian Ye](https://www.linkedin.com/in/limjianye/), under the supervision of [Dr He Xiaogang](https://scholar.google.com/citations?user=AWfzBLMAAAAJ&hl=en).
+This Weather Prediction App (2023-{{ "now" | date: "%Y" }}) by [Lim Jian Ye](https://www.linkedin.com/in/limjianye/), under the supervision of [Dr He Xiaogang](https://scholar.google.com/citations?user=AWfzBLMAAAAJ&hl=en).
 
 ### License
 
