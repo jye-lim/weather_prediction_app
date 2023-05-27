@@ -16,7 +16,7 @@
 title: Weather Prediction App
 description: This web app demonstrates the capabilities of using a ConvLSTM2D model to predict extreme weather events across Singapore.
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "https://just-the-docs.com" # the base hostname & protocol for your site, e.g. http://example.com
+url: "https://jye-lim.github.io/weather_prediction_app/" # the base hostname & protocol for your site, e.g. http://example.com
 repository: jye-lim/weather_prediction_app # for github-metadata
 
 permalink: pretty
