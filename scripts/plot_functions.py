@@ -6,12 +6,12 @@ import matplotlib.pyplot as plt
 from shapely.geometry import Point
 
 
-def configure_plot(plot_type, dates, true_target, prcp_true, prcp_pred, spi_true, spi_pred):
+def configure_plot(plot_type, dates, target, prcp_true, prcp_pred, spi_true, spi_pred):
     if plot_type == 'Precipitation':
         st.markdown("## Precipitation Comparison")
         data_true = prcp_true[..., 0]
         data_pred = prcp_pred[..., 0]
-        plt_date = dates[true_target].strftime("%d %B %Y")
+        plt_date = dates[target].strftime("%d %B %Y")
 
         cmap = 'Blues'
         cbar_label = 'Precipitation (mm)'
@@ -23,7 +23,7 @@ def configure_plot(plot_type, dates, true_target, prcp_true, prcp_pred, spi_true
         st.markdown("## SPI Comparison")
         data_true = spi_true
         data_pred = spi_pred
-        plt_date = dates[true_target].strftime("%B %Y")
+        plt_date = dates[target].strftime("%B %Y")
 
         cmap_options = ['RdBu', 'inferno_r', 'viridis_r']
         rsvr_options = ['magenta', 'lime', 'magenta']
@@ -116,22 +116,20 @@ def get_reservoir_values(data, boundary, xlat_values, xlong_values):
     return rsvr_c
 
 
-def get_plots(world, rows, cols, xlat, xlong, plot_type, dates, true_target, pred_target, waterbody, step, spi_true, spi_pred_dict, prcp_true, prcp_pred_dict, reservoirs_gdf):
+def get_plots(world, rows, cols, xlat, xlong, plot_type, dates, target, waterbody, prcp_true, prcp_pred, spi_true, spi_pred, reservoirs_gdf):
     fig, ax = plt.subplots(nrows=rows, ncols=cols, figsize=(cols * 8, rows * 7))
     fig.set_size_inches(cols * 8, rows * 7)
 
-    data_true, data_pred, plt_date, cmap, cbar_label, rsvr_colour, vmin, vmax = configure_plot(plot_type, dates, true_target, prcp_true, prcp_pred_dict[step], 
-                                                                                               spi_true, spi_pred_dict[step])
+    data_true, data_pred, plt_date, cmap, cbar_label, rsvr_colour, vmin, vmax = configure_plot(plot_type, dates, target, prcp_true, prcp_pred, spi_true, spi_pred)
 
     add_colorbar(fig, ax, cmap, vmin, vmax, cbar_label)
 
-    obs_mean = np.nanmean(data_true[true_target])
-    pred_mean = np.nanmean(data_pred[pred_target])
-    data_true[true_target] = np.where(np.isnan(data_true[true_target]), obs_mean, data_true[true_target])
-    data_pred[pred_target] = np.where(np.isnan(data_pred[pred_target]), pred_mean, data_pred[pred_target])
+    true_mean = np.nanmean(data_true[target])
+    pred_mean = np.nanmean(data_pred[target])
+    data_true[target] = np.where(np.isnan(data_true[target]), true_mean, data_true[target])
+    data_pred[target] = np.where(np.isnan(data_pred[target]), pred_mean, data_pred[target])
 
     labels = ["WRF Simulation", "Predicted"]
-    targets = [true_target, pred_target]
     zoomed = st.checkbox("Zoom", value=False)
 
     true_reservoir = None
@@ -139,14 +137,14 @@ def get_plots(world, rows, cols, xlat, xlong, plot_type, dates, true_target, pre
     target_reservoir = reservoirs_gdf[reservoirs_gdf["name"] == waterbody]
 
     for c in range(cols):
-        plot_subplot(world, ax[c], data_true[targets[c]] if c == 0 else data_pred[targets[c]], cmap, vmin, vmax, xlat, xlong, labels[c], zoomed, target_reservoir, rsvr_colour)
+        plot_subplot(world, ax[c], data_true[target] if c == 0 else data_pred[target], cmap, vmin, vmax, xlat, xlong, labels[c], zoomed, target_reservoir, rsvr_colour)
         rsvr_c = get_reservoir_values(data_true if c == 0 else data_pred, target_reservoir.geometry.iloc[0], xlat, xlong)
         true_reservoir, pred_reservoir = (rsvr_c, pred_reservoir) if c == 0 else (true_reservoir, rsvr_c)
 
     fig.suptitle(plt_date, fontsize=20, fontweight='bold')
     st.pyplot(fig)
 
-    return data_true[true_target], data_pred[pred_target], true_reservoir, pred_reservoir
+    return data_true[target], data_pred[target], true_reservoir, pred_reservoir
 
 
 def show_distribution(true, pred, plot_type):
