@@ -8,3 +8,6 @@ Gemfile.lock
 node_modules
 .DS_Store
 !*.jpg
+
+# Ignore files from stramlit web app
+scripts/
