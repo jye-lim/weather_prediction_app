@@ -27,6 +27,9 @@ The accuracy of the deployed models in this web app has much room for improvemen
 
 To access the web app, follow the steps below to run it locally:
 
+{: .highlight }
+Ensure that `Python 3.10.6` is installed.
+
 1. Clone the repo
 
     ```bash
