@@ -38,23 +38,33 @@ Link to webpage:
     <li>static: Contains files that remains unchanged</li>
 </ul>
 
-## **Usage**
+## **Getting Started**
 
-To access the web app, either use the public link at the top of this README document or fork it and follow the steps below to run it locally:
+To access the web app, clone the repo and follow the steps below to run it locally:
 
-1. Ensure that `Python 3.10.6` and the required packages listed in requirements.txt are installed
+1. Ensure that `Python 3.10.6` is installed.
 
-2. Install app requirements.
+2. Clone the repo.
+
+    ```bash
+    git clone https://github.com/jye-lim/weather_prediction_app
+    ```
+
+3. Install the required packages using the requirements.txt file.
 
     ```bash
     pip install -r requirements.txt
     ```
 
-3. Access the web app locally by running the following commands in the root directory.
+4. Run the app.py file
 
     ```bash
     streamlit run app.py
     ```
+
+## **User Guide**
+
+https://github.com/jye-lim/weather_prediction_app/assets/108608838/7bcd4a3a-c825-41ca-a8a7-1e5e1ecf5b97
 
 ## **Methodology**
 
@@ -99,6 +109,17 @@ To access the web app, either use the public link at the top of this README docu
         </p>
     </li>
 </ol>
+
+## **Contributing**
+
+### Submitting code changes:
+
+- Submit an [Issue](https://github.com/jye-lim/weather_prediction_app/issues)
+- Discuss the proposed changes with other users and the maintainers
+- Open a [Pull Request](https://github.com/jye-lim/weather_prediction_app/pulls)
+- Ensure all CI tests pass
+- Provide instructions to check the effect of the changes
+- Await code review
 
 ## **Disclaimers**
 
