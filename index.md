@@ -7,7 +7,6 @@ permalink: /
 ---
 
 # Weather Prediction App Documentation
-
 {: .fs-9 }
 
 This web app demonstrates the capabilities of using a ConvLSTM2D model to predict extreme weather events across Singapore.
