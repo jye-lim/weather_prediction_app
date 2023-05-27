@@ -7,59 +7,65 @@ permalink: /
 ---
 
 # Weather Prediction App Documentation
+
 {: .fs-9 }
 
 This web app demonstrates the capabilities of using a ConvLSTM2D model to predict extreme weather events across Singapore.
 {: .fs-6 .fw-300 }
 
 [Get started now](#getting-started){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
-[View it on GitHub][app repo]{: .btn .fs-5 .mb-4 .mb-md-0 }
+[View it on GitHub](https://github.com/jye-lim/weather_prediction_app){: .btn .fs-5 .mb-4 .mb-md-0 }
 
 ---
 
-## About the project
+## Overview
 
 Welcome to our weather prediction web app! This web app demonstrates the capabilities of using a ConvLSTM2D model to predict extreme weather events across Singapore. Through this web app, we hope to showcase the potential of using Deep Neural Networks to capture spatiotemporal dependencies within meteorological datasets to predict the onset of extreme weather events.
 
 The accuracy of the deployed models in this web app has much room for improvement. However, we hope that by sharing our findings and potential areas for future research, we can contribute to developing more reliable forecasting systems for Singapore.
 
-Jekyll builds this Just the Docs theme docs website using the theme itself. These web pages show how your web pages will look *by default* when you use this theme. But you can easily *[customize]* the theme to make them look completely different!
-
 ## Getting started
 
-The [Just the Docs Template] provides the simplest, quickest, and easiest way to create a new website that uses the Just the Docs theme. To get started with creating a site, just click "[use the template]"!
+To access the web app, follow the steps below to run it locally:
 
-{: .note }
-To use the theme, you do ***not*** need to clone or fork the [Just the Docs repo]! You should do that only if you intend to browse the theme docs locally, contribute to the development of the theme, or develop a new theme based on Just the Docs.
+1. Clone the repo
 
-You can easily set the site created by the template to be published on [GitHub Pages] – the [template README] file explains how to do that, along with other details.
+    ```bash
+    git clone https://github.com/jye-lim/weather_prediction_app
+    ```
 
-If [Jekyll] is installed on your computer, you can also build and preview the created site *locally*. This lets you test changes before committing them, and avoids waiting for GitHub Pages.[^2] And you will be able to deploy your local build to a different platform than GitHub Pages.
+2. Install the required packages using the requirements.txt file
 
-More specifically, the created site:
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-- uses a gem-based approach, i.e. uses a `Gemfile` and loads the `just-the-docs` gem
-- uses the [GitHub Pages / Actions workflow] to build and publish the site on GitHub Pages
+3. Run the app.py file
 
-Other than that, you're free to customize sites that you create with the template, however you like. You can easily change the versions of `just-the-docs` and Jekyll it uses, as well as adding further plugins.
+    ```bash
+    streamlit run app.py
+    ```
 
-{: .note }
-See the theme [README][Just the Docs README] for how to use the theme as a gem without creating a new site.
+## User guide
+
+<video width="100%" height="auto" controls>
+  <source src="./assets/videos/user_guide.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
 
 ## About the project
 
-Just the Docs is &copy; 2017-{{ "now" | date: "%Y" }} by [Patrick Marsceill](http://patrickmarsceill.com).
+This Weather Prediction App (2017-{{ "now" | date: "%Y" }}) by [Lim Jian Ye](https://www.linkedin.com/in/limjianye/), under the supervision of [Dr He Xiaogang](https://scholar.google.com/citations?user=AWfzBLMAAAAJ&hl=en).
 
 ### License
 
-Just the Docs is distributed by an [MIT license](https://github.com/just-the-docs/just-the-docs/tree/main/LICENSE.txt).
+This Weather Prediction App is distributed by an [MIT license](https://github.com/jye-lim/weather_prediction_app/blob/main/LICENSE).
 
 ### Contributing
 
-When contributing to this repository, please first discuss the change you wish to make via issue,
-email, or any other method with the owners of this repository before making a change. Read more about becoming a contributor in [our GitHub repo](https://github.com/just-the-docs/just-the-docs#contributing).
+When contributing to this repository, please first discuss the change you wish to make via issue, <a href="mailto:jianye_lim@outlook.com">email</a>, or any other method with the owners of this repository before making a change. Read more about becoming a contributor in [our GitHub repo](https://github.com/jye-lim/weather_prediction_app#contributing).
 
-#### Thank you to the contributors of Just the Docs!
+#### Thank you to the contributors of Just the Docs
 
 <ul class="list-style-none">
 {% for contributor in site.github.contributors %}
@@ -68,31 +74,3 @@ email, or any other method with the owners of this repository before making a ch
   </li>
 {% endfor %}
 </ul>
-
-### Code of Conduct
-
-Just the Docs is committed to fostering a welcoming community.
-
-[View our Code of Conduct](https://github.com/just-the-docs/just-the-docs/tree/main/CODE_OF_CONDUCT.md) on our GitHub repository.
-
-----
-
-[^1]: The [source file for this page] uses all three markup languages.
-
-[^2]: [It can take up to 10 minutes for changes to your site to publish after you push the changes to GitHub](https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/creating-a-github-pages-site-with-jekyll#creating-your-site).
-
-[Jekyll]: https://jekyllrb.com
-[Markdown]: https://daringfireball.net/projects/markdown/
-[Liquid]: https://github.com/Shopify/liquid/wiki
-[Front matter]: https://jekyllrb.com/docs/front-matter/
-[Jekyll configuration]: https://jekyllrb.com/docs/configuration/
-[source file for this page]: https://github.com/just-the-docs/just-the-docs/blob/main/index.md
-[Just the Docs Template]: https://just-the-docs.github.io/just-the-docs-template/
-[Just the Docs]: https://just-the-docs.com
-[app repo]: https://github.com/jye-lim/weather_prediction_app
-[Just the Docs README]: https://github.com/just-the-docs/just-the-docs/blob/main/README.md
-[GitHub Pages]: https://pages.github.com/
-[Template README]: https://github.com/just-the-docs/just-the-docs-template/blob/main/README.md
-[GitHub Pages / Actions workflow]: https://github.blog/changelog/2022-07-27-github-pages-custom-github-actions-workflows-beta/
-[customize]: {% link docs/customization.md %}
-[use the template]: https://github.com/just-the-docs/just-the-docs-template/generate
