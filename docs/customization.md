@@ -124,8 +124,6 @@ New (v0.4.0)
 
 To define new SCSS variables or functions, place SCSS code in `_sass/custom/setup.scss`. This should *not* be used for defining custom styles (see the next section) or overriding color scheme variables (in this case, you should create a new color scheme).
 
-This is most commonly-used to define [custom callout colors]({% link docs/configuration.md %}#callouts). For example,
-
 ```scss
 // _sass/custom/setup.scss
 $pink-000: #f77ef1;
@@ -189,12 +187,6 @@ To change the default TOC heading to "Contents", create `_includes/toc_heading_c
 ```
 
 The (optional) `text-delta` class makes the heading appear as **Contents**{:.text-delta} .
-
-### Custom Footer
-
-`_includes/footer_custom.html`
-
-This content appears at the bottom of every page's main content. More info for this include can be found in the [Configuration - Footer content]({% link docs/configuration.md %}#footer-content).
 
 ### Custom Head
 
