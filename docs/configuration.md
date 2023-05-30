@@ -1,13 +1,13 @@
 ---
 layout: default
-title: Configuration
+title: Methodology
 nav_order: 2
 ---
 
-# Configuration
+# Methodology
 {: .no_toc }
 
-Just the Docs has some specific configuration parameters that can be defined in your Jekyll site's \_config.yml file.
+Discussions on the methodology of the project.
 {: .fs-6 .fw-300 }
 
 ## Table of contents
@@ -18,303 +18,139 @@ Just the Docs has some specific configuration parameters that can be defined in 
 
 ---
 
-View this site's [\_config.yml](https://github.com/just-the-docs/just-the-docs/tree/main/_config.yml) file as an example.
+## Model Selection
 
-## Site logo
+### CNN-LSTM
 
-```yaml
-# Set a path/url to a logo that will be displayed instead of the title
-logo: "/assets/images/just-the-docs.png"
+For the task of weather prediction using machine learning, the CNN-LSTM model is typically used. A CNN-LSTM model utilizes a convolutional layer to learn spatial features, which are then passed to an LSTM layer to capture temporal dependencies. The final fully connected layer processes the LSTM layer's output to minimize variability and improve predictions ([Sainath et al., 2015](https://ieeexplore.ieee.org/document/7178838)). However, the LSTM layer linearizes its input to the fully connected layer into a 1-dimensional array ([Hu et al., 2020](https://ieeexplore.ieee.org/document/8960629)), leading to a loss of spatial considerations while retaining only the temporal ones ([Shi et al., 2015](https://doi.org/10.48550/arXiv.1506.04214); [Hu et al., 2020](https://ieeexplore.ieee.org/document/8960629)).
+
+![CNN-LSTM Model Architecture](../../assets/images/cnn-lstm.png)
+{: .text-center .my-6 }
+
+Figure 1: Typical CNN-LSTM Model Architecture ([Oh et al., 2018](https://pubmed.ncbi.nlm.nih.gov/29903630/))
+{: .text-center .fs-3 .fw-300 }
+
+### ConvLSTM2D
+
+In contrast, ConvLSTM2D performs convolutional operations **within** the LSTM cell, allowing for a 3-dimensional input incorporating spatial and temporal dimensions ([Hu et al., 2020](https://ieeexplore.ieee.org/document/8960629)). This results in the retention of both spatial and temporal features, thus enhancing the learning of correlations within the data ([Shi et al., 2015](https://doi.org/10.48550/arXiv.1506.04214); [Gaur et al., 2020](https://doi.org/10.48550/arXiv.2203.13263)).
+
+![ConvLSTM2D Inner Structure](../../assets/images/convlstm2d.png)
+{: .text-center .my-6 }
+
+Figure 2: Inner Structure of ConvLSTM2D ([Shi et al., 2015](https://doi.org/10.48550/arXiv.1506.04214))
+{: .text-center .fs-3 .fw-300 }
+
+## Data Source
+
+This research utilizes the Weather Research & Forecasting (WRF) Model [dataset](https://sgcale.github.io/research/climate-downscaling/) provided by Singapore's Climate ArtificiaL intelligence Engine ([SgCALE](https://sgcale.github.io/)). The data was bias-corrected, downscaled, and refined from Global Climate Models (GCMs) and the European Centre for Medium-Range Weather Forecasts Reanalysis 5 (ERA5) dataset.
+
+![Downscaling](../../assets/images/downscaling.png)
+{: .text-center .my-6 }
+
+Figure 3: Data Downscaling Process ([SgCALE, 2022](https://sgcale.github.io/research/climate-downscaling/))
+{: .text-center .fs-3 .fw-300 }
+
+## Dataset Characteristic
+
+| Characteristics | Details                                                                      |
+|:----------------|:-----------------------------------------------------------------------------|
+| Source          | SgCALE                                                                       |
+| Resolution      | 500 m grids                                                                  |
+| Time Frame      | 1981 - 2020                                                                  |
+| NaN Filling     | Linear interpolation of adjacent grids                                       |
+| Input Variables | Temperature, Relative Humidity, Surface Pressure, Cloud Fraction, Wind Speed |
+| Output Variable | Precipitation                                                                |
+| Dataset Split   | Training (70%), Validation (15%), Test (15%)                                 |
+| Batch Size      | 32                                                                           |
+| Lookback        | 7                                                                            |
+
+The model takes in data from the past 7-days *(t-6, t-5, ..., t)* to predict the next day precipitation *(t+1)*.
+
+## ConvLSTM2D Model Architecture
+
+The ConvLSTM2D model was designed with an input layer, two hidden ConvLSTM2D layers, a batch normalization layer, and a dense output layer.
+
+| Layer               | Filters/Units | Filter Size | Output Shape            | Parameters |
+|:--------------------|:--------------|:------------|:------------------------|:-----------|
+| ConvLSTM2D          | 64            | 3 x 3       | (None, 7, 120, 160, 64) | 159,232    |
+| Batch Normalisation | -             | -           | (None, 7, 120, 160, 64) | 256        |
+| ConvLSTM2D          | 64            | 3 x 3       | (None, 7, 120, 160, 64) | 295,168    |
+| Dense               | 1             | -           | (None, 120, 160, 1)     | 65         |
+
+### Considerations
+
+1. Two ConvLSTM2D layers with 64 filters were ideal for learning the dataset's spatiotemporal dependencies.
+   1. More layers or filters led to overfitting and extended training times.
+   2. Fewer layers or filters compromised performance.
+2. Batch normalization was utilized to:
+   1. Ensure faster model convergence by normalizing data between layers, as gradients maintain similar scales.
+   2. Mitigate the risk of vanishing or exploding gradients as they maintain similar scales.
+   3. Reduce overfitting by reducing the internal covariate shift.
+3. Batch normalization is not used before the fully connected layer as it negatively impacts performance.
+   1. Likely due to undesired shift in our data scale, mean, or variance.
+
+## Model Training
+
+We trained the proposed ConvLSTM2D model for 100 epochs, employing only model checkpointing without early stopping to save the model with the best validation loss during training. This approach helps avoid the double descent phenomenon ([Heckel & Yilmaz, 2020](https://arxiv.org/abs/2007.10099)) and ensures optimal model performance.
+
+As for the optimization method, we chose the Adaptive Moment Estimation (Adam) optimizer. Adam is a popular choice due to its adaptive nature, adjusting the learning rate throughout the training process, thereby ensuring faster convergence and improved generalisation of the model.
+
+### Loss Function
+
+Unlike traditional convolutional outputs where loss computations often revolve around pixel-to-pixel comparisons, our model utilizes a custom loss function that computes loss over an area.
+
+![FSS Loss](../../assets/images/fss.png)
+{: .text-center .my-6 }
+
+Figure 3: Neighbourhood Scanning Loss Function ([Uphoff, et al., 2021](https://arxiv.org/abs/2106.09757))
+{: .text-center .fs-3 .fw-300 }
+
+As demonstrated in Figure 3, the predicted grids with rain are only one grid away from the observed values. Using the built-in loss functions, such as Mean Squared Error (MSE) loss, would result in the model being penalized **twice** for what could be considered a reasonable prediction. The first penalty would be applied to the grid that has observed precipitation but no predicted precipitation, while the second would apply to the grid with predicted precipitation but no observed precipitation. This is despite the model having fairly accurately identified the areas experiencing precipitation.
+
+To overcome this issue, we implement a custom loss function called the Fractions Skill Score ([FSS](https://arxiv.org/abs/2106.09757)) loss. The FSS loss scans an area of size *m* x *m* (where *m* refers to the user-defined mask size), calculating the average precipitation within that area, and then computing the losses between the true and predicted values. This approach better accommodates the spatial nature of our data and mitigates overly penalizing reasonable predictions.
+
+```bash
+# Define modified FSS loss
+def make_FSS_loss(mask_size):
+    def my_FSS_loss(y_true, y_pred):
+
+        cutoff = 0.5
+        c = 10
+
+        y_true_binary = tf.math.sigmoid( c * ( y_true - cutoff ))
+        y_pred_binary = tf.math.sigmoid( c * ( y_pred - cutoff ))
+
+        pool1 = tf.keras.layers.AveragePooling2D(pool_size=(mask_size, mask_size), strides=(1, 1), padding='same')
+        y_true_density = pool1(y_true_binary);
+        n_density_pixels = tf.cast( (tf.shape(y_true_density)[1] * tf.shape(y_true_density)[2]) , tf.float32 )
+
+        pool2 = tf.keras.layers.AveragePooling2D(pool_size=(mask_size, mask_size), strides=(1, 1), padding='same')
+        y_pred_density = pool2(y_pred_binary);
+
+        # calculate MSE
+        MSE_n = tf.keras.losses.MeanSquaredError()(y_true_density, y_pred_density)
+
+        O_n_squared_image = tf.keras.layers.Multiply()([y_true_density, y_true_density])
+        O_n_squared_vector = tf.keras.layers.Flatten()(O_n_squared_image)
+        O_n_squared_sum = tf.reduce_sum(O_n_squared_vector)
+
+        M_n_squared_image = tf.keras.layers.Multiply()([y_pred_density, y_pred_density])
+        M_n_squared_vector = tf.keras.layers.Flatten()(M_n_squared_image)
+        M_n_squared_sum = tf.reduce_sum(M_n_squared_vector)
+        
+        MSE_n_ref = (O_n_squared_sum + M_n_squared_sum) / n_density_pixels
+        
+        # calculate MAE
+        MAE_n = tf.keras.losses.MeanAbsoluteError()(y_true_density, y_pred_density)
+        MAE_n_ref = tf.reduce_sum(tf.abs(tf.subtract(y_true_density, y_pred_density))) / n_density_pixels
+
+        # initialize weights
+        alpha = 0.70 # for MSE loss 
+        beta = 0.30 # for MAE loss 
+        my_epsilon = tf.keras.backend.epsilon() # this is 10^(-7)
+
+        return (alpha * (MSE_n / (MSE_n_ref + my_epsilon))) + (beta * (MAE_n / (MAE_n_ref + my_epsilon)))
+    return my_FSS_loss
 ```
 
-## Site favicon
-
-```yaml
-# Set a path/url to a favicon that will be displayed by the browser
-favicon_ico: "/assets/images/favicon.ico"
-```
-
-If the path to your favicon is `/favicon.ico`, you can leave `favicon_ico` unset.
-
-## Search
-
-```yaml
-# Enable or disable the site search
-# Supports true (default) or false
-search_enabled: true
-
-search:
-  # Split pages into sections that can be searched individually
-  # Supports 1 - 6, default: 2
-  heading_level: 2
-  # Maximum amount of previews per search result
-  # Default: 3
-  previews: 3
-  # Maximum amount of words to display before a matched word in the preview
-  # Default: 5
-  preview_words_before: 5
-  # Maximum amount of words to display after a matched word in the preview
-  # Default: 10
-  preview_words_after: 10
-  # Set the search token separator
-  # Default: /[\s\-/]+/
-  # Example: enable support for hyphenated search words
-  tokenizer_separator: /[\s/]+/
-  # Display the relative url in search results
-  # Supports true (default) or false
-  rel_url: true
-  # Enable or disable the search button that appears in the bottom right corner of every page
-  # Supports true or false (default)
-  button: false
-```
-
-## Mermaid Diagrams
-{: .d-inline-block }
-
-New (v0.4.0)
-{: .label .label-green }
-
-The minimum configuration requires the key for `version` ([from jsDelivr](https://cdn.jsdelivr.net/npm/mermaid/)) in `_config.yml`:
-
-```yaml
-mermaid:
-  # Version of mermaid library
-  # Pick an available version from https://cdn.jsdelivr.net/npm/mermaid/
-  version: "9.1.3"
-```
-
-Provide a `path` instead of a `version` key to load the mermaid library from a local file.
-
-See [the Code documentation]({% link docs/ui-components/code.md %}#mermaid-diagram-code-blocks) for more configuration options and information.
-
-## Aux links
-
-```yaml
-# Aux links for the upper right navigation
-aux_links:
-  "Just the Docs on GitHub":
-    - "//github.com/just-the-docs/just-the-docs"
-
-# Makes Aux links open in a new tab. Default is false
-aux_links_new_tab: false
-```
-
-## Heading anchor links
-
-```yaml
-# Heading anchor links appear on hover over h1-h6 tags in page content
-# allowing users to deep link to a particular heading on a page.
-#
-# Supports true (default) or false
-heading_anchors: true
-```
-
-## External navigation links
-{: .d-inline-block }
-
-New (v0.4.0)
-{: .label .label-green }
-
-External links can be added to the navigation through the `nav_external_links` option.
-See [Navigation Structure]({% link docs/navigation-structure.md %}#external-navigation-links) for more details.
-
-## Footer content
-
-```yaml
-# Footer content
-# appears at the bottom of every page's main content
-# Note: The footer_content option is deprecated and will be removed in a future major release. Please use `_includes/footer_custom.html` for more robust
-markup / liquid-based content.
-footer_content: "Copyright &copy; 2017-2020 Patrick Marsceill. Distributed by an <a href=\"https://github.com/just-the-docs/just-the-docs/tree/main/LICENSE.txt\">MIT license.</a>"
-
-# Footer last edited timestamp
-last_edit_timestamp: true # show or hide edit time - page must have `last_modified_date` defined in the frontmatter
-last_edit_time_format: "%b %e %Y at %I:%M %p" # uses ruby's time format: https://ruby-doc.org/stdlib-2.7.0/libdoc/time/rdoc/Time.html
-
-# Footer "Edit this page on GitHub" link text
-gh_edit_link: true # show or hide edit this page link
-gh_edit_link_text: "Edit this page on GitHub."
-gh_edit_repository: "https://github.com/just-the-docs/just-the-docs" # the github URL for your repo
-gh_edit_branch: "main" # the branch that your docs is served from
-# gh_edit_source: docs # the source that your files originate from
-gh_edit_view_mode: "tree" # "tree" or "edit" if you want the user to jump into the editor immediately
-```
-
-_note: `footer_content` is deprecated, but still supported. For a better experience we have moved this into an include called `_includes/footer_custom.html` which will allow for robust markup / liquid-based content._
-
-- the "page last modified" data will only display if a page has a key called `last_modified_date`, formatted in some readable date format
-- `last_edit_time_format` uses Ruby's DateTime formatter; see examples and more information [at this link.](https://apidock.com/ruby/DateTime/strftime)
-- `gh_edit_repository` is the URL of the project's GitHub repository
-- `gh_edit_branch` is the branch that the docs site is served from; defaults to `main`
-- `gh_edit_source` is the source directory that your project files are stored in (should be the same as [site.source](https://jekyllrb.com/docs/configuration/options/))
-- `gh_edit_view_mode` is `"tree"` by default, which brings the user to the github page; switch to `"edit"` to bring the user directly into editing mode
-
-## Color scheme
-
-```yaml
-# Color scheme supports "light" (default) and "dark"
-color_scheme: dark
-```
-
-<button class="btn js-toggle-dark-mode">Preview dark color scheme</button>
-
-<script>
-const toggleDarkMode = document.querySelector('.js-toggle-dark-mode');
-
-jtd.addEvent(toggleDarkMode, 'click', function(){
-  if (jtd.getTheme() === 'dark') {
-    jtd.setTheme('light');
-    toggleDarkMode.textContent = 'Preview dark color scheme';
-  } else {
-    jtd.setTheme('dark');
-    toggleDarkMode.textContent = 'Return to the light side';
-  }
-});
-</script>
-
-See [Customization]({% link docs/customization.md %}) for more information.
-
-## Callouts
-{: .d-inline-block }
-
-New (v0.4.0)
-{: .label .label-green }
-
-To use this feature, you need to configure a `color` and (optionally) `title` for each kind of callout you want to use, e.g.:
-
-```yaml
-callouts:
-  warning:
-    title: Warning
-    color: red
-```
-
-This uses the color `$red-000` for the background of the callout, and `$red-300` for the title and box decoration.[^dark] You can then style a paragraph as a `warning` callout like this:
-
-```markdown
-{: .warning }
-A paragraph...
-```
-
-[^dark]:
-    If you use the `dark` color scheme, this callout uses `$red-300` for the background, and `$red-000` for the title.
-
-The colors `grey-lt`, `grey-dk`, `purple`, `blue`, `green`, `yellow`, and `red` are predefined; to use a custom color, you need to define its `000` and `300` levels in your SCSS files. For example, to use `pink`, add the following to your `_sass/custom/setup.scss` file:
-
-```scss
-$pink-000: #f77ef1;
-$pink-100: #f967f1;
-$pink-200: #e94ee1;
-$pink-300: #dd2cd4;
-```
-
-You can override the default `opacity` of the background for a particular callout, e.g.:
-
-```yaml
-callouts:
-  custom:
-    color: pink
-    opacity: 0.3
-```
-
-You can change the default opacity (`0.2`) for all callouts, e.g.:
-
-```yaml
-callouts_opacity: 0.3
-```
-
-You can also adjust the overall level of callouts.
-The value of `callouts_level` is either `quiet` or `loud`;
-`loud` increases the saturation and lightness of the backgrounds.
-The default level is `quiet` when using the `light` or custom color schemes,
-and `loud` when using the `dark color scheme.`
-
-See [Callouts]({% link docs/ui-components/callouts.md %}) for more information.
-
-## Google Analytics
-
-{: .warning }
-> [Google Analytics 4 will replace Universal Analytics](https://support.google.com/analytics/answer/11583528). On **July 1, 2023**, standard Universal Analytics properties will stop processing new hits. The earlier you migrate, the more historical data and insights you will have in Google Analytics 4.
-
-Universal Analytics (UA) and Google Analytics 4 (GA4) properties are supported.
-
-```yaml
-# Google Analytics Tracking (optional)
-# Supports a CSV of tracking ID strings (eg. "UA-1234567-89,G-1AB234CDE5")
-ga_tracking: UA-2709176-10
-ga_tracking_anonymize_ip: true # Use GDPR compliant Google Analytics settings (true/nil by default)
-```
-
-### Multiple IDs
-{: .d-inline-block .no_toc }
-
-New (v0.4.0)
-{: .label .label-green }
-
-This theme supports multiple comma-separated tracking IDs. This helps seamlessly transition UA properties to GA4 properties by tracking both for a while.
-
-```yaml
-ga_tracking: "UA-1234567-89,G-1AB234CDE5"
-```
-
-## Document collections
-
-By default, the navigation and search include normal [pages](https://jekyllrb.com/docs/pages/).
-You can also use [Jekyll collections](https://jekyllrb.com/docs/collections/) which group documents semantically together.
-
-{: .warning }
-> Collection folders always start with an underscore (`_`), e.g. `_tests`. You won't see your collections if you omit the prefix.
-
-For example, put all your test files in the `_tests` folder and create the `tests` collection:
-
-```yaml
-# Define Jekyll collections
-collections:
-  # Define a collection named "tests", its documents reside in the "_tests" directory
-  tests:
-    permalink: "/:collection/:path/"
-    output: true
-
-just_the_docs:
-  # Define which collections are used in just-the-docs
-  collections:
-    # Reference the "tests" collection
-    tests:
-      # Give the collection a name
-      name: Tests
-      # Exclude the collection from the navigation
-      # Supports true or false (default)
-      # nav_exclude: true
-      # Fold the collection in the navigation
-      # Supports true or false (default)
-      # nav_fold: true  # note: this option is new in v0.4
-      # Exclude the collection from the search
-      # Supports true or false (default)
-      # search_exclude: true
-```
-
-The navigation for all your normal pages (if any) is displayed before those in collections.
-
-You can reference multiple collections.
-This creates categories in the navigation with the configured names.
-
-```yaml
-collections:
-  tests:
-    permalink: "/:collection/:path/"
-    output: true
-  tutorials:
-    permalink: "/:collection/:path/"
-    output: true
-
-just_the_docs:
-  collections:
-    tests:
-      name: Tests
-    tutorials:
-      name: Tutorials
-```
-
-When *all* your pages are in a single collection, its name is not displayed.
-
-The navigation for each collection is a separate name space for page titles: a page in one collection cannot be a child of a page in a different collection, or of a normal page.
+We modified the FSS loss to combine MSE and Mean Absolute Error (MAE) loss, weighted at 0.70 and 0.30 respectively. This places slightly less emphasis on the extreme values and more on the average values, which might be counterintuitive for our focus on the prediction of extreme weather events. However, we found that this approach resulted in better model prediction for both floods and droughts. The overprediction of precipitation intensity across all areas result in the underprediction of drought intensity, which is undesirable. Lastly, we used a mask size of 9 x 9 to scan the area, as it demonstrated the best performance.
