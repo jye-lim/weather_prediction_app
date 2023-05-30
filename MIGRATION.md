@@ -263,28 +263,6 @@ It also lists changes made to the `main` branch of the theme since the latest re
 
 For changes since v0.3.3, the log usually references the merged PR that made the change and its author.
 
-### NON-BREAKING CHANGES (OUTLINE ONLY)
-
-#### Accessibility
-
-- Skip to main content: the first keyboard-navigatable item is now a link to skip over the sidebar and header to the main content of the page. PR: [#949].
-- Aria-labels: improved `aria-label`s have been added to various site elements. PRs: [#950], ...
-- Other general improvements: gradual changes have improved tab focusability, contrast, and semantic elements. More work still to come. PRs: [#498], [#846]
-
-#### Configuration
-
-- Mermaid support: first-class support for [Mermaid](https://mermaid.js.org/) - a JavaScript-based diagram and charting tool supported by GitHub - has been added to the theme. **This feature is opt-in.** See the new doc subsections in [Configuration]({% link docs/configuration.md %}#mermaid-diagrams) and [Code]({% link docs/ui-components/code.md %}#mermaid-diagram-code-blocks) for more.
-- Multiple Google Analytics tags are now supported. PR: [#1029]
-
-#### Customization
-
-- all user-facing text is now customizable; previously, several elements (ex search placeholder) were hardwired into the theme. Now, users can blend custom includes and layouts to internationalize their sites.
-- we've clarified the role of `custom.scss` to be imported last; to allow users to define custom or override variables, we've added a new file `setup.scss`. PR: [#1135]
-
-#### Custom Includes
-
-We've added several custom `_includes` to provide users with more customization options for different site elements. We've also added a section to [Configuration]({% link docs/customization.md %}#override-includes) to outline these.
-
 All of these are opt-in by default; however, **these may be breaking if you have existing `_includes` with the same name**.
 
 Each item is listed with the relevant file and PR.
