@@ -54,7 +54,7 @@ Refer to the User Guide video to use the Web App in [our GitHub repo](https://gi
 
 ## About the project
 
-This Weather Prediction App (2023-{{ "now" | date: "%Y" }}) by [Lim Jian Ye](https://www.linkedin.com/in/limjianye/), under the supervision of [Dr He Xiaogang](https://scholar.google.com/citations?user=AWfzBLMAAAAJ&hl=en).
+This Weather Prediction App is &copy; 2023-{{ "now" | date: "%Y" }} by [Lim Jian Ye](https://www.linkedin.com/in/limjianye/), under the supervision of [Dr He Xiaogang](https://scholar.google.com/citations?user=AWfzBLMAAAAJ&hl=en).
 
 ### License
 
