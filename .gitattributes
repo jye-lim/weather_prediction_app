@@ -1,2 +1,0 @@
-prcp_pred.npy filter=lfs diff=lfs merge=lfs -text
-prcp_true.npy filter=lfs diff=lfs merge=lfs -text
