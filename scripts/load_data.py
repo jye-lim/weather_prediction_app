@@ -4,16 +4,25 @@ import geopandas as gpd
 
 
 @st.cache_resource
-def load_data():
+def loop_files(path, file_name, start_date, end_date):
+    for year in range(start_date, end_date):
+        file_path = path + file_name + "_" + str(year) + ".npy"
+        if year == start_date:
+            arr = np.load(file_path)
+        else:
+            arr = np.concatenate([arr, np.load(file_path)], axis=0)
+    return arr
+
+def load_data(start_date, end_date):
     # Load precipitation
     prcp_path = "./data/precipitation/"
-    prcp_true = np.load(prcp_path + "prcp_true.npy")
-    prcp_pred = np.load(prcp_path + "prcp_pred.npy")
+    prcp_true = loop_files(prcp_path, "prcp_true", start_date, end_date)
+    prcp_pred = loop_files(prcp_path, "prcp_pred", start_date, end_date)
 
     # Load SPI
     spi_path = "./data/spi/"
-    spi_true = np.load(spi_path + "spi_true.npy")
-    spi_pred = np.load(spi_path + "spi_pred.npy")
+    spi_true = loop_files(spi_path, "spi_true", start_date, end_date)
+    spi_pred = loop_files(spi_path, "spi_pred", start_date, end_date)
 
     # Load coastlines
     world = gpd.read_file('./static/assets/ne_10m_coastline.shp')
