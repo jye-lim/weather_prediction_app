@@ -38,7 +38,7 @@ The folder structure is as follows:
     <li>static: Contains files that remains unchanged</li>
 </ul>
 
-## **Getting Started**
+## **Installation**
 
 To access the web app, clone the repo and follow the steps below to run it locally:
 
