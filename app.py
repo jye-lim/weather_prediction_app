@@ -6,13 +6,22 @@ from scripts.subpages import display_about_page, display_dashboard_page, display
 
 
 def main():
-    # Create a Streamlit application
+    # Self-define parameters
+    start_date = 2015
+    end_date = 2021
+    n_input = 7
+    rows = 1
+    cols = 2
+    xlat = np.load("./static/assets/coords_xlat.npy")
+    xlong = np.load("./static/assets/coords_xlong.npy")
     logo = "./static/images/logo.png"
+
+    # Create a Streamlit application
     st.set_page_config(page_title="Weather Prediction App", layout='wide', initial_sidebar_state='auto', page_icon=logo)
     st.title("Weather Prediction App")
 
     # Load data
-    prcp_true, prcp_pred, spi_true, spi_pred, world, reservoirs_gdf = load_data()
+    prcp_true, prcp_pred, spi_true, spi_pred, world, reservoirs_gdf = load_data(start_date, end_date)
 
     # Store key variables in session state
     st.session_state['prcp_true'] = prcp_true
@@ -26,15 +35,6 @@ def main():
     for v in variables:
         if v not in st.session_state:
             st.session_state[v] = None
-
-    # Self-define parameters and store key variables in session state
-    start_date = 2015
-    end_date = 2021
-    n_input = 7
-    rows = 1
-    cols = 2
-    xlat = np.load("./static/assets/coords_xlat.npy")
-    xlong = np.load("./static/assets/coords_xlong.npy")
 
     # Initialize sidebar
     selected_page = create_sidebar(start_date, end_date, n_input, logo, reservoirs_gdf)
