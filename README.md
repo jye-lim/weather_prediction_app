@@ -38,11 +38,11 @@ Link to webpage:
     <li>static: Contains files that remains unchanged</li>
 </ul>
 
-## **Getting Started**
+## **Installation**
 
 To access the web app, clone the repo and follow the steps below to run it locally:
 
-1. Ensure that `Python 3.10.6` is installed.
+**Ensure that `Python 3.10.6` is installed.**
 
 2. Clone the repo.
 
