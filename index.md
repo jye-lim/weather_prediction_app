@@ -12,7 +12,7 @@ permalink: /
 This web app demonstrates the capabilities of using a ConvLSTM2D model to predict extreme weather events across Singapore.
 {: .fs-6 .fw-300 }
 
-[Get started now](#getting-started){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
+[Get started now](#installation){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
 [View it on GitHub](https://github.com/jye-lim/weather_prediction_app){: .btn .fs-5 .mb-4 .mb-md-0 }
 
 ---
@@ -23,7 +23,7 @@ Welcome to our weather prediction web app! This web app demonstrates the capabil
 
 The accuracy of the deployed models in this web app has much room for improvement. However, we hope that by sharing our findings and potential areas for future research, we can contribute to developing more reliable forecasting systems for Singapore.
 
-## Getting started
+## Installation
 
 To access the web app, follow the steps below to run it locally:
 
