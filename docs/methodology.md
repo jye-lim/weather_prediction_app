@@ -27,7 +27,7 @@ For the task of weather prediction using machine learning, the CNN-LSTM model is
 ![CNN-LSTM Model Architecture](../../assets/images/cnn-lstm.png)
 {: .text-center .my-6 }
 
-Figure 1: Typical CNN-LSTM Model Architecture ([Oh et al., 2018](https://pubmed.ncbi.nlm.nih.gov/29903630/))
+Typical CNN-LSTM Model Architecture ([Oh et al., 2018](https://pubmed.ncbi.nlm.nih.gov/29903630/))
 {: .text-center .fs-3 .fw-300 }
 
 ### ConvLSTM2D
@@ -37,7 +37,7 @@ In contrast, ConvLSTM2D performs convolutional operations **within** the LSTM ce
 ![ConvLSTM2D Inner Structure](../../assets/images/convlstm2d.png)
 {: .text-center .my-6 }
 
-Figure 2: Inner Structure of ConvLSTM2D ([Shi et al., 2015](https://doi.org/10.48550/arXiv.1506.04214))
+Inner Structure of ConvLSTM2D ([Shi et al., 2015](https://doi.org/10.48550/arXiv.1506.04214))
 {: .text-center .fs-3 .fw-300 }
 
 ## Data Source
@@ -47,7 +47,7 @@ This research utilizes the Weather Research & Forecasting (WRF) Model [dataset](
 ![Downscaling](../../assets/images/downscaling.png)
 {: .text-center .my-6 }
 
-Figure 3: Data Downscaling Process ([SgCALE, 2022](https://sgcale.github.io/research/climate-downscaling/))
+Data Downscaling Process ([SgCALE, 2022](https://sgcale.github.io/research/climate-downscaling/))
 {: .text-center .fs-3 .fw-300 }
 
 ## Dataset Characteristic
@@ -102,10 +102,10 @@ Unlike traditional convolutional outputs where loss computations often revolve a
 ![FSS Loss](../../assets/images/fss.png)
 {: .text-center .my-6 }
 
-Figure 3: Neighbourhood Scanning Loss Function ([Uphoff, et al., 2021](https://arxiv.org/abs/2106.09757))
+Neighbourhood Scanning Loss Function ([Uphoff, et al., 2021](https://arxiv.org/abs/2106.09757))
 {: .text-center .fs-3 .fw-300 }
 
-As demonstrated in Figure 3, the predicted grids with rain are only one grid away from the observed values. Using the built-in loss functions, such as Mean Squared Error (MSE) loss, would result in the model being penalized **twice** for what could be considered a reasonable prediction. The first penalty would be applied to the grid that has observed precipitation but no predicted precipitation, while the second would apply to the grid with predicted precipitation but no observed precipitation. This is despite the model having fairly accurately identified the areas experiencing precipitation.
+The predicted grids with rain are only one grid away from the observed values. Using the built-in loss functions, such as Mean Squared Error (MSE) loss, would result in the model being penalized **twice** for what could be considered a reasonable prediction. The first penalty would be applied to the grid that has observed precipitation but no predicted precipitation, while the second would apply to the grid with predicted precipitation but no observed precipitation. This is despite the model having fairly accurately identified the areas experiencing precipitation.
 
 To overcome this issue, we implement a custom loss function called the Fractions Skill Score ([FSS](https://arxiv.org/abs/2106.09757)) loss. The FSS loss scans an area of size *m* x *m* (where *m* refers to the user-defined mask size), calculating the average precipitation within that area, and then computing the losses between the true and predicted values. This approach better accommodates the spatial nature of our data and mitigates overly penalizing reasonable predictions.
 
