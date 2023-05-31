@@ -7,8 +7,6 @@ Link to webpage:
 
 Welcome to our weather prediction web app! This repo contains the code for the web app documentation.
 
-The web app demonstrates the capabilities of using a ConvLSTM2D model to predict extreme weather events across Singapore. Through this web app, we hope to showcase the potential of using Deep Neural Networks to capture spatiotemporal dependencies within meteorological datasets to predict the onset of extreme weather events. The accuracy of the deployed models in this web app has much room for improvement. However, we hope that by sharing our findings and potential areas for future research, we can contribute to developing more reliable forecasting systems for Singapore.
-
 ## **Installation**
 
 To access the web app, clone the repo and follow the steps below to run it locally:
@@ -32,3 +30,16 @@ To access the web app, clone the repo and follow the steps below to run it local
     ```bash
     streamlit run app.py
     ```
+
+### Submitting code changes
+
+- Submit an [Issue](https://github.com/jye-lim/weather_prediction_app/issues)
+- Discuss the proposed changes with other users and the maintainers
+- Open a [Pull Request](https://github.com/jye-lim/weather_prediction_app/pulls)
+- Ensure all CI tests pass
+- Provide instructions to check the effect of the changes
+- Await code review
+
+## **Disclaimers**
+
+The data and predictions presented in this dashboard are for informational purposes only and should not be used for decision-making without further verification. The creators of this dashboard are not responsible for any errors or inaccuracies in the data or predictions or for any decisions made based on the information provided here.
