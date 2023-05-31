@@ -100,7 +100,7 @@ A custom loss function, [Fractions Skill Score (FSS)](https://doi.org/10.48550/a
 
 ## **Contributing**
 
-### Submitting code changes:
+### Submitting code changes
 
 - Submit an [Issue](https://github.com/jye-lim/weather_prediction_app/issues)
 - Discuss the proposed changes with other users and the maintainers
@@ -111,6 +111,4 @@ A custom loss function, [Fractions Skill Score (FSS)](https://doi.org/10.48550/a
 
 ## **Disclaimers**
 
-<p>
-    The data and predictions presented in this dashboard are for informational purposes only and should not be used for decision-making without further verification. The creators of this dashboard are not responsible for any errors or inaccuracies in the data or predictions or for any decisions made based on the information provided here.
-</p>
+The data and predictions presented in this dashboard are for informational purposes only and should not be used for decision-making without further verification. The creators of this dashboard are not responsible for any errors or inaccuracies in the data or predictions or for any decisions made based on the information provided here.
