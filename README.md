@@ -34,11 +34,10 @@ The folder structure is as follows:
     └─── requirements.txt</br>
     ...
 </p>
-<ul>
-    <li>data: Contains WRF simulated and predicted data for plotting</li>
-    <li>scripts: Contains self-defined functions for the web app</li>
-    <li>static: Contains files that remains unchanged</li>
-</ul>
+
+- data: Contains WRF simulated and predicted data for plotting
+- scripts: Contains self-defined functions for the web app
+- static: Contains files that remains unchanged
 
 ## **Installation**
 
