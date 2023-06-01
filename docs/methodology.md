@@ -22,32 +22,32 @@ Discussions on the methodology of the project.
 
 ### CNN-LSTM
 
-For the task of weather prediction using machine learning, the CNN-LSTM model is typically used. A CNN-LSTM model utilizes a convolutional layer to learn spatial features, which are then passed to an LSTM layer to capture temporal dependencies. The final fully connected layer processes the LSTM layer's output to minimize variability and improve predictions ([Sainath et al., 2015](https://ieeexplore.ieee.org/document/7178838)). However, the LSTM layer linearizes its input to the fully connected layer into a 1-dimensional array ([Hu et al., 2020](https://ieeexplore.ieee.org/document/8960629)), leading to a loss of spatial considerations while retaining only the temporal ones ([Shi et al., 2015](https://doi.org/10.48550/arXiv.1506.04214); [Hu et al., 2020](https://ieeexplore.ieee.org/document/8960629)).
+For the task of weather prediction using machine learning, the CNN-LSTM model is typically used. A CNN-LSTM model utilizes a convolutional layer to learn spatial features, which are then passed to an LSTM layer to capture temporal dependencies. The final fully connected layer processes the LSTM layer's output to minimize variability and improve predictions ([Sainath et al., 2015](https://ieeexplore.ieee.org/document/7178838){:target="_blank"}). However, the LSTM layer linearizes its input to the fully connected layer into a 1-dimensional array ([Hu et al., 2020](https://ieeexplore.ieee.org/document/8960629){:target="_blank"}), leading to a loss of spatial considerations while retaining only the temporal ones ([Shi et al., 2015](https://doi.org/10.48550/arXiv.1506.04214){:target="_blank"}); ([Hu et al., 2020](https://ieeexplore.ieee.org/document/8960629){:target="_blank"}).
 
 ![CNN-LSTM Model Architecture](../../assets/images/cnn-lstm.png)
 {: .text-center .my-6 }
 
-Typical CNN-LSTM Model Architecture ([Oh et al., 2018](https://pubmed.ncbi.nlm.nih.gov/29903630/))
+Typical CNN-LSTM Model Architecture ([Oh et al., 2018](https://pubmed.ncbi.nlm.nih.gov/29903630/){:target="_blank"})
 {: .text-center .fs-3 .fw-300 }
 
 ### ConvLSTM2D
 
-In contrast, ConvLSTM2D performs convolutional operations **within** the LSTM cell, allowing for a 3-dimensional input incorporating spatial and temporal dimensions ([Hu et al., 2020](https://ieeexplore.ieee.org/document/8960629)). This results in the retention of both spatial and temporal features, thus enhancing the learning of correlations within the data ([Shi et al., 2015](https://doi.org/10.48550/arXiv.1506.04214); [Gaur et al., 2020](https://doi.org/10.48550/arXiv.2203.13263)).
+In contrast, ConvLSTM2D performs convolutional operations **within** the LSTM cell, allowing for a 3-dimensional input incorporating spatial and temporal dimensions ([Hu et al., 2020](https://ieeexplore.ieee.org/document/8960629){:target="_blank"}). This results in the retention of both spatial and temporal features, thus enhancing the learning of correlations within the data ([Shi et al., 2015](https://doi.org/10.48550/arXiv.1506.04214){:target="_blank"}); ([Gaur et al., 2020](https://doi.org/10.48550/arXiv.2203.13263){:target="_blank"}).
 
 ![ConvLSTM2D Inner Structure](../../assets/images/convlstm2d.png)
 {: .text-center .my-6 }
 
-Inner Structure of ConvLSTM2D ([Shi et al., 2015](https://doi.org/10.48550/arXiv.1506.04214))
+Inner Structure of ConvLSTM2D ([Shi et al., 2015](https://doi.org/10.48550/arXiv.1506.04214){:target="_blank"})
 {: .text-center .fs-3 .fw-300 }
 
 ## Data Source
 
-This research utilizes the Weather Research & Forecasting (WRF) Model [dataset](https://sgcale.github.io/research/climate-downscaling/) provided by Singapore's Climate ArtificiaL intelligence Engine ([SgCALE](https://sgcale.github.io/)). The data was bias-corrected, downscaled, and refined from Global Climate Models (GCMs) and the European Centre for Medium-Range Weather Forecasts Reanalysis 5 (ERA5) dataset.
+This research utilizes the Weather Research & Forecasting (WRF) Model [dataset](https://sgcale.github.io/research/climate-downscaling/){:target="_blank"} provided by Singapore's Climate ArtificiaL intelligence Engine ([SgCALE](https://sgcale.github.io/){:target="_blank"}). The data was bias-corrected, downscaled, and refined from Global Climate Models (GCMs) and the European Centre for Medium-Range Weather Forecasts Reanalysis 5 (ERA5) dataset.
 
 ![Downscaling](../../assets/images/downscaling.png)
 {: .text-center .my-6 }
 
-Data Downscaling Process ([SgCALE, 2022](https://sgcale.github.io/research/climate-downscaling/))
+Data Downscaling Process ([SgCALE, 2022](https://sgcale.github.io/research/climate-downscaling/){:target="_blank"})
 {: .text-center .fs-3 .fw-300 }
 
 ## Dataset Characteristic
@@ -91,7 +91,7 @@ The ConvLSTM2D model was designed with an input layer, two hidden ConvLSTM2D lay
 
 ## Model Training
 
-We trained the proposed ConvLSTM2D model for 100 epochs, employing only model checkpointing without early stopping to save the model with the best validation loss during training. This approach helps avoid the double descent phenomenon ([Heckel & Yilmaz, 2020](https://arxiv.org/abs/2007.10099)) and ensures optimal model performance.
+We trained the proposed ConvLSTM2D model for 100 epochs, employing only model checkpointing without early stopping to save the model with the best validation loss during training. This approach helps avoid the double descent phenomenon ([Heckel & Yilmaz, 2020](https://arxiv.org/abs/2007.10099){:target="_blank"}) and ensures optimal model performance.
 
 As for the optimization method, we chose the Adaptive Moment Estimation (Adam) optimizer. Adam is a popular choice due to its adaptive nature, adjusting the learning rate throughout the training process, thereby ensuring faster convergence and improved generalisation of the model.
 
@@ -102,12 +102,12 @@ Unlike traditional convolutional outputs where loss computations often revolve a
 ![FSS Loss](../../assets/images/fss.png)
 {: .text-center .my-6 }
 
-Neighbourhood Scanning Loss Function ([Uphoff, et al., 2021](https://arxiv.org/abs/2106.09757))
+Neighbourhood Scanning Loss Function ([Uphoff, et al., 2021](https://arxiv.org/abs/2106.09757){:target="_blank"})
 {: .text-center .fs-3 .fw-300 }
 
 The predicted grids with rain are only one grid away from the observed values. Using the built-in loss functions, such as Mean Squared Error (MSE) loss, would result in the model being penalized **twice** for what could be considered a reasonable prediction. The first penalty would be applied to the grid that has observed precipitation but no predicted precipitation, while the second would apply to the grid with predicted precipitation but no observed precipitation. This is despite the model having fairly accurately identified the areas experiencing precipitation.
 
-To overcome this issue, we implement a custom loss function called the Fractions Skill Score ([FSS](https://arxiv.org/abs/2106.09757)) loss. The FSS loss scans an area of size *m* x *m* (where *m* refers to the user-defined mask size), calculating the average precipitation within that area, and then computing the losses between the true and predicted values. This approach better accommodates the spatial nature of our data and mitigates overly penalizing reasonable predictions.
+To overcome this issue, we implement a custom loss function called the Fractions Skill Score ([FSS](https://arxiv.org/abs/2106.09757){:target="_blank"}) loss. The FSS loss scans an area of size *m* x *m* (where *m* refers to the user-defined mask size), calculating the average precipitation within that area, and then computing the losses between the true and predicted values. This approach better accommodates the spatial nature of our data and mitigates overly penalizing reasonable predictions.
 
 ```bash
 # Define modified FSS loss
