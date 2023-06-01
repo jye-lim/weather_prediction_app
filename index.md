@@ -12,8 +12,8 @@ permalink: /
 This web app demonstrates the capabilities of using a ConvLSTM2D model to predict extreme weather events across Singapore.
 {: .fs-6 .fw-300 }
 
-[Get started now](#installation){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
-[View it on GitHub](https://github.com/jye-lim/weather_prediction_app){: .btn .fs-5 .mb-4 .mb-md-0 }
+[Get started now](https://jye-lim-weather.streamlit.app/){:target="_blank"}{: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
+[View it on GitHub](https://github.com/jye-lim/weather_prediction_app){:target="_blank"}{: .btn .fs-5 .mb-4 .mb-md-0 }
 
 ---
 
@@ -50,19 +50,19 @@ Ensure that `Python 3.10.6` is installed.
 
 ## User guide
 
-Refer to the User Guide video to use the Web App in [our GitHub repo](https://github.com/jye-lim/weather_prediction_app#user-guide).
+Refer to the User Guide video to use the Web App in [our GitHub repo](https://github.com/jye-lim/weather_prediction_app#user-guide){:target="_blank"}.
 
 ## About the project
 
-This Weather Prediction App is &copy; 2023-{{ "now" | date: "%Y" }} by [Lim Jian Ye](https://www.linkedin.com/in/limjianye/), under the supervision of [Dr He Xiaogang](https://scholar.google.com/citations?user=AWfzBLMAAAAJ&hl=en).
+This Weather Prediction App is &copy; 2023-{{ "now" | date: "%Y" }} by [Lim Jian Ye](https://www.linkedin.com/in/limjianye/){:target="_blank"}, under the supervision of [Dr He Xiaogang](https://scholar.google.com/citations?user=AWfzBLMAAAAJ&hl=en){:target="_blank"}.
 
 ### License
 
-This Weather Prediction App is distributed by an [MIT license](https://github.com/jye-lim/weather_prediction_app/blob/main/LICENSE).
+This Weather Prediction App is distributed by an [MIT license](https://github.com/jye-lim/weather_prediction_app/blob/main/LICENSE){:target="_blank"}.
 
 ### Contributing
 
-When contributing to this repository, please first discuss the change you wish to make via issue, <a href="mailto:jianye_lim@outlook.com">email</a>, or any other method with the owners of this repository before making a change. Read more about becoming a contributor in [our GitHub repo](https://github.com/jye-lim/weather_prediction_app#contributing).
+When contributing to this repository, please first discuss the change you wish to make via issue, [email](mailto:jianye_lim@outlook.com), or any other method with the owners of this repository before making a change. Read more about becoming a contributor in [our GitHub repo](https://github.com/jye-lim/weather_prediction_app#contributing){:target="_blank"}.
 
 #### Thank you to the contributors of Just the Docs
 
