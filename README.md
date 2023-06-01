@@ -1,7 +1,10 @@
 # **Weather Prediction App**
 
-Link to webpage:
+Link to web app:
 [https://jye-lim-weather.streamlit.app/](https://jye-lim-weather.streamlit.app/)
+
+Link to documentation:
+[https://jye-lim.github.io/weather_prediction_app/](https://jye-lim.github.io/weather_prediction_app/)
 
 ## **Overview**
 
@@ -24,7 +27,6 @@ The folder structure is as follows:
     │&nbsp;&nbsp;&nbsp;└─── downloads : <i>(data in .csv)</i></br>
     │&nbsp;&nbsp;&nbsp;└─── images : <i>(images in .png)</i></br>
     │&nbsp;&nbsp;&nbsp;└─── videos : <i>(videos in .mp4)</i></br>
-    ├─── .gitattributes</br>
     ├─── .gitignore</br>
     ├─── app.py</br>
     ├─── LICENSE</br>
