@@ -1,7 +1,10 @@
 # **Weather Prediction App**
 
-Link to webpage:
+Link to web app:
 [https://jye-lim-weather.streamlit.app/](https://jye-lim-weather.streamlit.app/)
+
+Link to documentation:
+[https://jye-lim.github.io/weather_prediction_app/](https://jye-lim.github.io/weather_prediction_app/)
 
 ## **Overview**
 
