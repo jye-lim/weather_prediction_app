@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import numpy as np
 import geopandas as gpd
@@ -5,12 +6,31 @@ import geopandas as gpd
 
 @st.cache_resource
 def loop_files(path, file_name, start_date, end_date):
+    arr = None
     for year in range(start_date, end_date):
-        file_path = path + file_name + "_" + str(year) + ".npy"
-        if year == start_date:
-            arr = np.load(file_path)
-        else:
-            arr = np.concatenate([arr, np.load(file_path)], axis=0)
+        part = 0
+        while True:
+            file_path = path + file_name + "_" + str(year) + "_" + str(part) + ".npy"
+            if os.path.isfile(file_path):
+                new_data = np.load(file_path)
+                if arr is None:
+                    arr = new_data
+                else:
+                    arr = np.concatenate([arr, new_data], axis=0)
+                part += 1
+            else:
+                break
+
+        # If no split files are found for a year, try to load the single annual file
+        if part == 0:
+            file_path = path + file_name + "_" + str(year) + ".npy"
+            if os.path.isfile(file_path):
+                new_data = np.load(file_path)
+                if arr is None:
+                    arr = new_data
+                else:
+                    arr = np.concatenate([arr, new_data], axis=0)
+                
     return arr
 
 def load_data(start_date, end_date):
