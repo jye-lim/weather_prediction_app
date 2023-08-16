@@ -26,7 +26,6 @@ The folder structure is as follows:
     │&nbsp;&nbsp;&nbsp;└─── assets : <i>(coordinate and coastline data)</i></br>
     │&nbsp;&nbsp;&nbsp;└─── downloads : <i>(data in .csv)</i></br>
     │&nbsp;&nbsp;&nbsp;└─── images : <i>(images in .png)</i></br>
-    │&nbsp;&nbsp;&nbsp;└─── videos : <i>(videos in .mp4)</i></br>
     ├─── .gitignore</br>
     ├─── app.py</br>
     ├─── LICENSE</br>
@@ -36,7 +35,7 @@ The folder structure is as follows:
 </p>
 
 - data: Contains WRF simulated and predicted data for plotting
-- scripts: Contains self-defined functions for the web app
+- scripts: Contains self-defined functions, in Python, for the web app
 - static: Contains files that remains unchanged
 
 ## **Installation**
