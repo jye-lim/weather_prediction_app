@@ -8,6 +8,9 @@ __pycache__/
 *.pyo
 *.pyd
 
+# Ignore macOS metadata
+.DS_Store
+
 # Ignore files for gh-pages
 _site/
 .jekyll-cache/
