@@ -28,8 +28,8 @@ def display_about_page():
     """)
 
     st.markdown("## User Guide")
-    st.video("./static/videos/user_guide.mp4")
-
+    st.video("https://youtu.be/HqK29T7Tny8")
+    
     st.markdown("## Future Works")
     st.markdown("""
     <ol>

@@ -76,7 +76,8 @@ To access the web app, clone the repo and follow the steps below to run it local
 
 ## **User Guide**
 
-[![User Guide](./static/images/user_guide.png)](https://drive.google.com/file/d/1yCAS14LA8XYfnkKBLIfydlrSVGGSjyXb/preview)
+Click the thumbnail below to be redirected:
+[![User Guide](./static/images/user_guide.png)](https://youtu.be/HqK29T7Tny8)
 
 ## **Methodology**
 
