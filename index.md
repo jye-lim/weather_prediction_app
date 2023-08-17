@@ -25,24 +25,34 @@ The accuracy of the deployed models in this web app has much room for improvemen
 
 ## Installation
 
-To access the web app, follow the steps below to run it locally:
+To access the web app, clone the repo and follow the steps below to run it locally:
 
-{: .highlight }
-Ensure that `Python 3.10.6` is installed.
+1. Create a virtual environment with `Python 3.10.6` and activate it.
 
-1. Clone the repo
+    ```bash
+    conda create -n wpa python=3.10.6
+    conda activate wpa
+    ```
+
+2. Clone the repo.
 
     ```bash
     git clone https://github.com/jye-lim/weather_prediction_app
     ```
 
-2. Install the required packages using the requirements.txt file
+3. Navigate to the repo.
+
+    ```bash
+    cd weather_prediction_app
+    ```
+
+4. Install the required packages using the requirements.txt file.
 
     ```bash
     pip install -r requirements.txt
     ```
 
-3. Run the app.py file
+5. Run the app.py file
 
     ```bash
     streamlit run app.py
@@ -64,7 +74,7 @@ This Weather Prediction App is distributed by an [MIT license](https://github.co
 
 When contributing to this repository, please first discuss the change you wish to make via issue, [email](mailto:jianye_lim@outlook.com), or any other method with the owners of this repository before making a change. Read more about becoming a contributor in [our GitHub repo](https://github.com/jye-lim/weather_prediction_app#contributing){:target="_blank"}.
 
-#### Thank you to the contributors of Just the Docs
+#### Thank you to the contributors of this project!
 
 <ul class="list-style-none">
 {% for contributor in site.github.contributors %}
